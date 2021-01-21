@@ -17,13 +17,13 @@ public class WildfireSimulationEditor : Editor
         _sim = (WildfireSimulation)target;
 
         // Texture resolution
-        resolutionIndex = (int)Mathf.Round((-4 + (Mathf.Log(_sim.textureResolution) / Mathf.Log(2)))); // Resolution to index number
+        resolutionIndex = (int)Mathf.Round((-4 + (Mathf.Log(_sim.textureResolution) / Mathf.Log(2)))); // Convert resolution size to an index option number
     }
 
     public override void OnInspectorGUI()
     {
         // Texture resolution
         resolutionIndex = EditorGUILayout.Popup("Texture Resolution", resolutionIndex, resolutionOptions);
-        _sim.textureResolution = (int)Mathf.Round((16 * Mathf.Pow(2, resolutionIndex))); // Index to resolution
+        _sim.textureResolution = (int)Mathf.Round((16 * Mathf.Pow(2, resolutionIndex))); // Convert the index to a texture resolution size
     }
 }
