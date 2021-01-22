@@ -18,7 +18,7 @@ public class TopDownCameraControllerEditor : Editor
     {
         // Monobehavior Header
         GUI.enabled = false;
-        EditorGUILayout.ObjectField("Script:", MonoScript.FromMonoBehaviour((TopDownCameraController)target), typeof(TopDownCameraController), false);
+        EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((TopDownCameraController)target), typeof(TopDownCameraController), false);
         EditorGUILayout.Space();
 
         // Transforms
