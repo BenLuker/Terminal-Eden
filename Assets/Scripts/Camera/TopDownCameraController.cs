@@ -13,9 +13,9 @@ public class TopDownCameraController : MonoBehaviour
     public float keyboardMovementSpeedSlow = 0.04f;
     public float keyboardMovementSpeedFast = 0.1f;
     public float keyboardRotationSpeedSlow = 0.3f;
-    public float keyboardRotationSpeedFast = 0.3f;
-    public float keyboardZoomSpeedSlow = 5f;
-    public float keyboardZoomSpeedFast = 5f;
+    public float keyboardRotationSpeedFast = 0.5f;
+    public float keyboardZoomSpeedSlow = 0.5f;
+    public float keyboardZoomSpeedFast = 3f;
 
     float keyboardMovementSpeed;
     float keyboardRotationSpeed;
@@ -23,7 +23,7 @@ public class TopDownCameraController : MonoBehaviour
 
     [Header("Mouse Input")]
     public float mouseRotationSpeed = 0.2f;
-    public float mouseZoomSpeed = 2f;
+    public float mouseZoomSpeed = 5f;
 
     [Header("Camera Limits")]
     public float craneAngleMin = 15f;
