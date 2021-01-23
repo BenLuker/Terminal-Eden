@@ -45,10 +45,14 @@ public class TopDownCameraController : MonoBehaviour
 
     #region Events
 
-    void Start()
+    void Reset()
     {
         craneTransform = transform.GetChild(0);
         cameraTransform = craneTransform.GetChild(0);
+    }
+
+    void Start()
+    {
         newPos = transform.position;
         newRotX = transform.rotation;
         newRotY = craneTransform.localRotation;
@@ -99,6 +103,46 @@ public class TopDownCameraController : MonoBehaviour
 
         Gizmos.color = Color.gray;
         Gizmos.DrawSphere(transform.position, 0.15f);
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    public void SetPosition(Vector3 position, bool smooth = true)
+    {
+        newPos = position;
+        if (!smooth)
+        {
+            transform.position = newPos;
+        }
+    }
+
+    public void SetXRotation(float angle, bool smooth = true)
+    {
+        newRotX = Quaternion.Euler(Vector3.up * angle);
+        if (!smooth)
+        {
+            transform.rotation = newRotX;
+        }
+    }
+
+    public void SetYRotation(float angle, bool smooth = true)
+    {
+        newRotY = Quaternion.Euler(Vector3.right * angle);
+        if (!smooth)
+        {
+            craneTransform.localRotation = newRotY;
+        }
+    }
+
+    public void SetZoom(float distance, bool smooth = true)
+    {
+        newZoom = Vector3.forward * distance;
+        if (!smooth)
+        {
+            cameraTransform.localPosition = newZoom;
+        }
     }
 
     #endregion
