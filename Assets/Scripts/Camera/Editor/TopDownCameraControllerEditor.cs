@@ -22,6 +22,7 @@ public class TopDownCameraControllerEditor : Editor
         EditorGUILayout.Space();
 
         // Transforms
+        EditorGUILayout.ObjectField("Camera", _cam.cam, typeof(Camera), true);
         EditorGUILayout.ObjectField("Camera Transform", _cam.cameraTransform, typeof(Transform), true);
         EditorGUILayout.ObjectField("Crane Transform", _cam.craneTransform, typeof(Transform), true);
         EditorGUILayout.Space();
@@ -30,6 +31,9 @@ public class TopDownCameraControllerEditor : Editor
         // Create styles
         GUIStyle headerStyle = new GUIStyle();
         headerStyle.fontStyle = FontStyle.Bold;
+
+        // FOV slider
+        _cam.cameraFOV = EditorGUILayout.Slider("Field of View", _cam.cameraFOV, 0f, 100f);
 
         // Smoothing slider
         _cam.cameraSmoothingSpeed = EditorGUILayout.Slider("Camera Smoothing Speed", _cam.cameraSmoothingSpeed, 0.1f, 20f);

@@ -5,8 +5,11 @@ using UnityEngine;
 public class TopDownCameraController : MonoBehaviour
 {
 
+    public Camera cam;
     public Transform cameraTransform;
     public Transform craneTransform;
+
+    public float cameraFOV = 10f;
     public float cameraSmoothingSpeed = 10f;
 
     [Header("Keyboard Input")]
@@ -49,6 +52,7 @@ public class TopDownCameraController : MonoBehaviour
     {
         craneTransform = transform.GetChild(0);
         cameraTransform = craneTransform.GetChild(0);
+        cam = cameraTransform.GetComponent<Camera>();
     }
 
     void Start()
@@ -90,6 +94,9 @@ public class TopDownCameraController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, newRotX, Time.deltaTime * cameraSmoothingSpeed);
         craneTransform.localRotation = Quaternion.Lerp(craneTransform.localRotation, newRotY, Time.deltaTime * cameraSmoothingSpeed);
         cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, Time.deltaTime * cameraSmoothingSpeed);
+
+        // Change FOV (utlilizing Vector2.Lerp to lerp a float)
+        cam.fieldOfView = Vector2.Lerp(new Vector2(cam.fieldOfView, 0), new Vector2(cameraFOV, 0), Time.deltaTime * cameraSmoothingSpeed).x;
     }
 
     void OnDrawGizmosSelected()
@@ -153,7 +160,7 @@ public class TopDownCameraController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             float entry;
 
             if (plane.Raycast(ray, out entry))
@@ -164,7 +171,7 @@ public class TopDownCameraController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             float entry;
 
             if (plane.Raycast(ray, out entry))
