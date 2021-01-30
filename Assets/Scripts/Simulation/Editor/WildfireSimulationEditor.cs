@@ -51,7 +51,7 @@ public class WildfireSimulationEditor : Editor
         GUI.enabled = EditorApplication.isPlaying && !_sim.updateOverTime ? true : false;
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Calculate Step")) _sim.CalculateStep();
-        GUI.enabled = _sim.historyTracker > 0 ? true : false;
+        GUI.enabled = EditorApplication.isPlaying && !_sim.updateOverTime && _sim.historyTracker > 0 ? true : false;
         if (GUILayout.Button(String.Format("Undo ({0})", _sim.historyTracker))) _sim.UndoStep();
         EditorGUILayout.EndHorizontal();
 
