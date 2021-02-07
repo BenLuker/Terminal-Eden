@@ -8,6 +8,7 @@ public class WildfireSimulation : MonoBehaviour
 
     // Shader Settings
     public Shader simShader;
+    public Shader initShader;
     Material simMat;
     public RenderTexture[] sim;
 
@@ -17,12 +18,14 @@ public class WildfireSimulation : MonoBehaviour
     public int historyTracker;
     int currentState = 0;
 
+    public bool randomStart = true;
     public bool updateOverTime = true;
     public int refreshRate = 1;
 
     private void Reset()
     {
         simShader = Shader.Find("Hidden/WildfireSimulation");
+        initShader = Shader.Find("Unlit/InitWildfireSimulation");
     }
 
     private void Start()
@@ -42,10 +45,19 @@ public class WildfireSimulation : MonoBehaviour
             sim[i].Create();
         }
 
-        // reset current state index to 0 and copy the initial state to first texture 
+        // reset current state index to 0 
         currentState = 0;
         historyTracker = 0;
-        Graphics.Blit(initialState, sim[currentState]);
+
+        // If starting is not random, blit the initial state. Otherwise, blit a random init
+        if (randomStart)
+        {
+            Graphics.Blit(sim[currentState], sim[currentState], new Material(initShader));
+        }
+        else
+        {
+            Graphics.Blit(initialState, sim[currentState]);
+        }
 
         // Create Material with Simulation Shader
         simMat = new Material(simShader);

@@ -58,10 +58,10 @@ public class WildfireSimulationEditor : Editor
         GUI.enabled = true;
         EditorGUILayout.Space(10);
 
-        #region Simulation Shader Settings
+        #region Setup Settings
 
         // Simulation Shader Settings
-        GUILayout.Label("Simulation Shader Settings", headerStyle);
+        GUILayout.Label("Setup Settings", headerStyle);
 
         // Simulation Shader and Render Texture
         GUI.enabled = false;
@@ -79,6 +79,10 @@ public class WildfireSimulationEditor : Editor
         _sim.simStates = EditorGUILayout.IntSlider("Undo History Limit", _sim.simStates - 1, 1, 50) + 1;
 
         GUI.enabled = true;
+
+        #endregion
+
+        #region Simulation Settings
 
         #endregion
     }
