@@ -4,28 +4,31 @@ using UnityEngine;
 
 public class WildfireSimulation : MonoBehaviour
 {
-    Material mat;
-
     // Shader Settings
     public Shader simShader;
     public Shader initShader;
+
     Material simMat;
+    Material initMat;
+    Material displayMat;
+
     public RenderTexture[] sim;
 
-    public Texture2D initialState;
-    public int textureResolution = 256;
-    public int simStates = 2;
+    public int textureResolution = 1024;
+    public int simStates = 26;
+    public int currentState = 0;
     public int historyTracker;
-    int currentState = 0;
+    public Texture2D initialState;
 
-    public bool randomStart = true;
+    public bool displaySimulation = true;
+    public bool generateStart = true;
     public bool updateOverTime = true;
-    public int refreshRate = 1;
+    public int refreshRate = 30;
 
     private void Reset()
     {
         simShader = Shader.Find("Hidden/WildfireSimulation");
-        initShader = Shader.Find("Unlit/InitWildfireSimulation");
+        initShader = Shader.Find("Hidden/GenerateTerrain");
     }
 
     private void Start()
@@ -49,8 +52,8 @@ public class WildfireSimulation : MonoBehaviour
         currentState = 0;
         historyTracker = 0;
 
-        // If starting is not random, blit the initial state. Otherwise, blit a random init
-        if (randomStart)
+        // If starting is not generated, blit the initial state. Otherwise, blit a generated init
+        if (generateStart)
         {
             Graphics.Blit(sim[currentState], sim[currentState], new Material(initShader));
         }
@@ -63,12 +66,12 @@ public class WildfireSimulation : MonoBehaviour
         simMat = new Material(simShader);
         simMat.SetInt("textureSize", textureResolution);
 
-        // Update viewable material
+        // Create Material with Display Shader
         Renderer rend = GetComponent<Renderer>();
         rend.enabled = true;
 
-        mat = rend.material;
-        mat.SetTexture("_BaseMap", sim[currentState]);
+        displayMat = rend.material;
+        displayMat.mainTexture = sim[currentState];
     }
 
     [ContextMenu("Calculate Step")]
@@ -80,7 +83,7 @@ public class WildfireSimulation : MonoBehaviour
 
         Graphics.Blit(sim[prevState], sim[currentState], simMat);
 
-        mat.SetTexture("_BaseMap", sim[currentState]);
+        displayMat.mainTexture = sim[currentState];
     }
 
     [ContextMenu("Undo Step")]
@@ -90,7 +93,7 @@ public class WildfireSimulation : MonoBehaviour
         {
             historyTracker--;
             currentState = ((currentState - 1) + simStates) % simStates;
-            mat.SetTexture("_BaseMap", sim[currentState]);
+            displayMat.mainTexture = sim[currentState];
         }
         else
         {

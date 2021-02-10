@@ -345,7 +345,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 67518ba16e2fd7e41b68a2a86f7ccde9, type: 2}
+  - {fileID: 2100000, guid: 0ae9d5af3ec8c8b4c93a6cf44b0b6f5f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -404,13 +404,15 @@ MonoBehaviour:
   simShader: {fileID: 4800000, guid: 2bb462de6f1ef2d499d5cbc2481cb619, type: 3}
   initShader: {fileID: 4800000, guid: 1e8d072e7a6381d4e9d5c3b538e88273, type: 3}
   sim: []
-  initialState: {fileID: 2800000, guid: db259e8dc7358484183ccc860de737b2, type: 3}
-  textureResolution: 2048
+  textureResolution: 1024
   simStates: 26
-  historyTracker: 2
-  randomStart: 1
+  currentState: 0
+  historyTracker: 0
+  initialState: {fileID: 0}
+  displaySimulation: 1
+  generateStart: 1
   updateOverTime: 1
-  refreshRate: 60
+  refreshRate: 30
 --- !u!1 &778731414
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,7 +975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1583505939
 MonoBehaviour:
   m_ObjectHideFlags: 0

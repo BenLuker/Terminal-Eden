@@ -35,14 +35,18 @@ public class WildfireSimulationEditor : Editor
         GUIStyle headerStyle = new GUIStyle();
         headerStyle.fontStyle = FontStyle.Bold;
 
-        // Realtime Controls
+        #region Realtime Controls
+
         GUILayout.Label("Realtime Controls", headerStyle);
 
         // Pause Toggle
         bool pauseToggle = _sim.updateOverTime;
         _sim.updateOverTime = !EditorGUILayout.Toggle("Pause", !_sim.updateOverTime);
-        if (pauseToggle == false && _sim.updateOverTime == true) _sim.ExecuteSimulation();
-        if (pauseToggle == true && _sim.updateOverTime == false) _sim.TerminateSimulation();
+        if (EditorApplication.isPlaying)
+        {
+            if (pauseToggle == false && _sim.updateOverTime == true) _sim.ExecuteSimulation();
+            if (pauseToggle == true && _sim.updateOverTime == false) _sim.TerminateSimulation();
+        }
 
         // Refresh Rate
         _sim.refreshRate = EditorGUILayout.IntSlider("Steps per second", _sim.refreshRate, 1, 60);
@@ -58,19 +62,25 @@ public class WildfireSimulationEditor : Editor
         GUI.enabled = true;
         EditorGUILayout.Space(10);
 
-        #region Setup Settings
+        #endregion
 
-        // Simulation Shader Settings
-        GUILayout.Label("Setup Settings", headerStyle);
+        #region Simulation Settings
+
+        GUILayout.Label("Simulation Settings", headerStyle);
 
         // Simulation Shader and Render Texture
         GUI.enabled = false;
-        EditorGUILayout.ObjectField("Shader", _sim.simShader, typeof(Shader), true);
-        EditorGUILayout.Space();
-        GUI.enabled = EditorApplication.isPlaying ? false : true;
+        EditorGUILayout.ObjectField("Simulation Shader", _sim.simShader, typeof(Shader), true);
 
-        // Initial State Texture
-        _sim.initialState = (Texture2D)EditorGUILayout.ObjectField("Initial State", _sim.initialState, typeof(Texture2D), false, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+        GUI.enabled = true;
+        EditorGUILayout.Space(10);
+
+        #endregion
+
+        #region Simulation Settings
+
+        GUILayout.Label("Simulation Setup", headerStyle);
+        GUI.enabled = EditorApplication.isPlaying ? false : true;
 
         // Texture Resolution
         _sim.textureResolution = EditorGUILayout.IntField("Texture Resolution", _sim.textureResolution);
@@ -78,11 +88,25 @@ public class WildfireSimulationEditor : Editor
         // Undo History
         _sim.simStates = EditorGUILayout.IntSlider("Undo History Limit", _sim.simStates - 1, 1, 50) + 1;
 
+        // Generate or Read from File
+        EditorGUILayout.Space();
+        _sim.generateStart = EditorGUILayout.Toggle("Generate Start", _sim.generateStart);
+        if (_sim.generateStart)
+        {
+            // Generation Settings
+            EditorGUI.indentLevel++;
+            GUI.enabled = false;
+            EditorGUILayout.ObjectField("Generation Shader", _sim.initShader, typeof(Shader), true);
+            GUI.enabled = true;
+            EditorGUI.indentLevel--;
+        }
+        else
+        {
+            // Initial State Texture
+            _sim.initialState = (Texture2D)EditorGUILayout.ObjectField("Initial State", _sim.initialState, typeof(Texture2D), false, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+        }
+
         GUI.enabled = true;
-
-        #endregion
-
-        #region Simulation Settings
 
         #endregion
     }

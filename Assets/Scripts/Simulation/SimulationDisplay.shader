@@ -1,13 +1,18 @@
-﻿Shader "Unlit/InitWildfireSimulation"
+﻿Shader "Unlit/SimulationDisplay"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        
+
         _Grown ("Grown Color", Color) = (0, 1, 0, 1)
         _Overgrown ("Overgrown Color", Color) = (0, 0, 1, 1)
         _Fire ("Fire Color", Color) = (1, 0, 0, 1)
         _Burned ("Burned Color", Color) = (0, 0, 0, 1)
+
+        _GrownDisplay ("Grown Color Display", Color) = (0.04, 0.4, 0.14, 1)
+        _OvergrownDisplay ("Overgrown Color Display", Color) = (0, 0.3, 0.22, 1)
+        _FireDisplay ("Fire Color Display", Color) = (1, 0, 0, 1)
+        _BurnedDisplay ("Burned Color Display", Color) = (0.24, 0.16, 0.07, 1)
     }
     SubShader
     {
@@ -45,28 +50,14 @@
             fixed4 _Fire;
             fixed4 _Burned;
 
-            float2 gradientNoise_dir(float2 p)
-            {
-                p = p % 289;
-                float x = (34 * p.x + 1) * p.x % 289 + p.y;
-                x = (34 * x + 1) * x % 289;
-                x = frac(x / 41) * 2 - 1;
-                return normalize(float2(x - floor(x + 0.5), abs(x) - 0.5));
-            }
+            fixed4 _GrownDisplay;
+            fixed4 _OvergrownDisplay;
+            fixed4 _FireDisplay;
+            fixed4 _BurnedDisplay;
 
-            float gradientNoise(float2 UV, float Scale)
-            {
-                float2 p = UV * Scale;
-                
-                float2 ip = floor(p);
-                float2 fp = frac(p);
-                float d00 = dot(gradientNoise_dir(ip), fp);
-                float d01 = dot(gradientNoise_dir(ip + float2(0, 1)), fp - float2(0, 1));
-                float d10 = dot(gradientNoise_dir(ip + float2(1, 0)), fp - float2(1, 0));
-                float d11 = dot(gradientNoise_dir(ip + float2(1, 1)), fp - float2(1, 1));
-                fp = fp * fp * fp * (fp * (fp * 6 - 15) + 10);
-                
-                return (lerp(lerp(d00, d01, fp.y), lerp(d10, d11, fp.y), fp.x)) + 0.5;
+            bool colorsMatch(fixed4 a, fixed4 b, float tolerance = 0.01) {
+                half3 delta = abs(a.rgb - b.rgb);
+                return length(delta) < tolerance ? true : false;
             }
 
             v2f vert (appdata v)
@@ -81,15 +72,15 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 uv = i.uv;
-                if (gradientNoise(uv, 10) > 0.45) {
-                    if (gradientNoise(uv, 10) < 0.7) {
-                        return _Grown;
-                    } else {
-                        return _Overgrown;
-                    }
-                } else {
-                    return _Burned;
-                }
+                fixed4 c = tex2D(_MainTex, uv);
+
+                if (colorsMatch(c, _Grown)) return _GrownDisplay;
+                if (colorsMatch(c, _Overgrown)) return _OvergrownDisplay;
+                if (colorsMatch(c, _Fire)) return _FireDisplay;
+                if (colorsMatch(c, _Burned)) return _BurnedDisplay;
+
+                return c;
+
             }
             ENDCG
         }
