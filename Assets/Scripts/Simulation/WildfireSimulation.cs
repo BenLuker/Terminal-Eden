@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WildfireSimulation : MonoBehaviour
+public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
 {
     // Shader Settings
     public Shader simShader;
@@ -25,6 +25,8 @@ public class WildfireSimulation : MonoBehaviour
     public bool updateOverTime = true;
     public int refreshRate = 30;
 
+    #region Events
+
     private void Reset()
     {
         simShader = Shader.Find("Hidden/WildfireSimulation");
@@ -36,6 +38,26 @@ public class WildfireSimulation : MonoBehaviour
         InitSimulation();
         if (updateOverTime) ExecuteSimulation();
     }
+
+    #endregion
+
+    #region Public Methods and Variables
+
+    public void PlayPauseSimulation(bool play)
+    {
+        updateOverTime = play;
+
+        if (updateOverTime)
+        {
+            ExecuteSimulation();
+        }
+        else
+        {
+            TerminateSimulation();
+        }
+    }
+
+    #endregion
 
     void InitSimulation()
     {
@@ -99,6 +121,22 @@ public class WildfireSimulation : MonoBehaviour
         {
             Debug.LogError("Cannot undo");
         }
+    }
+
+    [ContextMenu("Save Texture")]
+    public void SaveTexture()
+    {
+        Texture2D tex = new Texture2D(textureResolution, textureResolution, TextureFormat.RGB24, false);
+
+        RenderTexture.active = sim[currentState];
+        tex.ReadPixels(new Rect(0, 0, textureResolution, textureResolution), 0, 0);
+        tex.Apply();
+        RenderTexture.active = null;
+
+        byte[] bytes = tex.EncodeToPNG();
+        string path = Application.dataPath + "/Scripts/Simulation";
+        System.IO.Directory.CreateDirectory(path);
+        System.IO.File.WriteAllBytes(path + "/SavedTexture.png", bytes);
     }
 
     public void ExecuteSimulation()

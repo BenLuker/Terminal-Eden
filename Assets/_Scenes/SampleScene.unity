@@ -123,6 +123,522 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &475629342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 475629344}
+  - component: {fileID: 475629343}
+  - component: {fileID: 475629345}
+  m_Layer: 0
+  m_Name: Level Libretto
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &475629343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475629342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e493ad0e56c82438ec2d5212b56738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scenes:
+  - name: Opening
+    type: Cutscene
+    commands:
+    - keyword:
+        name: StopSimulation
+        eventIndex: 0
+      arguments: 
+    - keyword:
+        name: BlockInput
+        eventIndex: 1
+      arguments: 
+    - keyword:
+        name: StartTurntable
+        eventIndex: 2
+      arguments: -0.3
+    - keyword:
+        name: Wait
+        eventIndex: 3
+      arguments: 1
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: Welcome to Terminal Eden's wildfire simulation.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: Allow me to explain what you're looking at here.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: This plane represents a terrain, and is comprised of small squares
+        called "cells".
+    - keyword:
+        name: TweenZoom
+        eventIndex: 5
+      arguments: 30 2 smooth nowait
+    - keyword:
+        name: TweenYRot
+        eventIndex: 6
+      arguments: 60 2 smooth
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: <i>Really</i> small squares.
+    - keyword:
+        name: TweenZoom
+        eventIndex: 5
+      arguments: 5 2 smooth
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: There are just over 4 million cells in this simulation.
+    - keyword:
+        name: StopTurntable
+        eventIndex: 7
+      arguments: 
+    - keyword:
+        name: BlockOutput
+        eventIndex: 8
+      arguments: 
+    - keyword:
+        name: TweenMove
+        eventIndex: 9
+      arguments: 0 0 0 2 smooth nowait
+    - keyword:
+        name: TweenYRot
+        eventIndex: 6
+      arguments: 90 2 smooth nowait
+    - keyword:
+        name: TweenXRot
+        eventIndex: 10
+      arguments: 0 2 smooth nowait
+    - keyword:
+        name: TweenZoom
+        eventIndex: 5
+      arguments: 120 2 smooth
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: Each cell is a different color, representing its state.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: And every state has a probability of turning into another state
+        based on its surroundings.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: The dark brown cells represent areas with no vegetation.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: The light green cells represent areas with healthy vegetation.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: The dark green cells represent areas with overgrown vegetation.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: And when we start the simulation, you'll see fire represented as
+        red cells.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: These fires will start randomly when the simulation is running.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: As you'll see, overgrown vegetation has a higher chance of catching
+        fire than healthy vegetation.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: And of course, cells with no vegetation will not burn.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: This produces some interesting behaviors.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: Let's start the simulation.
+    - keyword:
+        name: PlaySimulation
+        eventIndex: 11
+      arguments: 
+    - keyword:
+        name: Wait
+        eventIndex: 3
+      arguments: 3
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: How about we get a closer look?
+    - keyword:
+        name: TweenZoom
+        eventIndex: 5
+      arguments: 25 2 smooth
+    - keyword:
+        name: Wait
+        eventIndex: 3
+      arguments: 2
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: With a global wind variable set to East, you can see how this affects
+        the fire propagation direction.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: But what you might not notice is how it also affects the vegetation.
+        Fire isn't the only thing that spreads.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: Cells with healthy vegetation have a chance to spread to cells next
+        to them without vegetation.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: And cells with overgrown vegetation have a chance to spread to cells
+        with healthy vegetation.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: Additionally, grown and overgrown cells can spawn randomly, and
+        then begin to spread.
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: Why don't you explore for yourself?
+    - keyword:
+        name: UnblockOutput
+        eventIndex: 12
+      arguments: 
+    - keyword:
+        name: UnblockInput
+        eventIndex: 13
+      arguments: 
+    - keyword:
+        name: '*'
+        eventIndex: 4
+      arguments: Use the <b>w a s d q</b> and <b>e</b>, plus the arrow keys on your
+        keyboard, or your mouse, to navigate.
+  events:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 778712789}
+        m_TargetAssemblyTypeName: SimulationLibrettoCommands, Assembly-CSharp
+        m_MethodName: PauseSimulation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: BlockInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: StartTurntable
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 475629345}
+        m_TargetAssemblyTypeName: MiscellaneousLibrettoCommands, Assembly-CSharp
+        m_MethodName: Wait
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1979077248}
+        m_TargetAssemblyTypeName: VNDialogue, Assembly-CSharp
+        m_MethodName: NarratorTalk
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: TweenZoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: TweenRotationY
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: StopTurntable
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: BlockOutput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: TweenPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: TweenRotationX
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 778712789}
+        m_TargetAssemblyTypeName: SimulationLibrettoCommands, Assembly-CSharp
+        m_MethodName: PlaySimulation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnblockOutput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429111906}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnblockInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  keywords:
+  - type: Cutscene
+    keywords:
+    - name: StopSimulation
+      eventIndex: 0
+    - name: BlockInput
+      eventIndex: 1
+    - name: StartTurntable
+      eventIndex: 2
+    - name: Wait
+      eventIndex: 3
+    - name: '*'
+      eventIndex: 4
+    - name: TweenZoom
+      eventIndex: 5
+    - name: TweenYRot
+      eventIndex: 6
+    - name: StopTurntable
+      eventIndex: 7
+    - name: BlockOutput
+      eventIndex: 8
+    - name: TweenMove
+      eventIndex: 9
+    - name: TweenXRot
+      eventIndex: 10
+    - name: PlaySimulation
+      eventIndex: 11
+    - name: UnblockOutput
+      eventIndex: 12
+    - name: UnblockInput
+      eventIndex: 13
+  levelInfo: {fileID: 4900000, guid: e3241717523e1224ab3f40379726f00e, type: 3}
+  levelData: "Scene Cutscene Opening\r\n\tStopSimulation\r\n    BlockInput\r\n   
+    StartTurntable -0.3\r\n    Wait 1\r\n    * Welcome to Terminal Eden's wildfire
+    simulation.\r\n\t* Allow me to explain what you're looking at here.\r\n    *
+    This plane represents a terrain, and is comprised of small squares called \"cells\".\r\n   
+    TweenZoom 30 2 smooth nowait\r\n    TweenYRot 60 2 smooth\r\n    * <i>Really</i>
+    small squares.\r\n    TweenZoom 5 2 smooth\r\n    * There are just over 4 million
+    cells in this simulation.\r\n    StopTurntable\r\n    BlockOutput\r\n    TweenMove
+    0 0 0 2 smooth nowait\r\n    TweenYRot 90 2 smooth nowait\r\n    TweenXRot 0
+    2 smooth nowait\r\n    TweenZoom 120 2 smooth\r\n    * Each cell is a different
+    color, representing its state.\r\n    * And every state has a probability of
+    turning into another state based on its surroundings.\r\n    * The dark brown
+    cells represent areas with no vegetation.\r\n    * The light green cells represent
+    areas with healthy vegetation.\r\n    * The dark green cells represent areas
+    with overgrown vegetation.\r\n    * And when we start the simulation, you'll
+    see fire represented as red cells.\r\n    * These fires will start randomly when
+    the simulation is running.\r\n    * As you'll see, overgrown vegetation has a
+    higher chance of catching fire than healthy vegetation.\r\n    * And of course,
+    cells with no vegetation will not burn.\r\n    * This produces some interesting
+    behaviors.\r\n    * Let's start the simulation.\r\n    PlaySimulation\r\n   
+    Wait 3\r\n    * How about we get a closer look?\r\n    TweenZoom 25 2 smooth\r\n   
+    Wait 2\r\n    * With a global wind variable set to East, you can see how this
+    affects the fire propagation direction.\r\n    * But what you might not notice
+    is how it also affects the vegetation. Fire isn't the only thing that spreads.\r\n   
+    * Cells with healthy vegetation have a chance to spread to cells next to them
+    without vegetation.\r\n    * And cells with overgrown vegetation have a chance
+    to spread to cells with healthy vegetation.\r\n    * Additionally, grown and
+    overgrown cells can spawn randomly, and then begin to spread.\r\n    * Why don't
+    you explore for yourself?\r\n    UnblockOutput\r\n    UnblockInput\r\n    * Use
+    the <b>w a s d q</b> and <b>e</b>, plus the arrow keys on your keyboard, or your
+    mouse, to navigate."
+--- !u!4 &475629344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475629342}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &475629345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475629342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1572449b64d16374285a79f3505e18f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commandComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 475629343}
+        m_TargetAssemblyTypeName: Libretto.LevelLibretto, Assembly-CSharp
+        m_MethodName: CompleteCommand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &522432720
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &752393128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -305,6 +821,7 @@ GameObject:
   - component: {fileID: 778712785}
   - component: {fileID: 778712784}
   - component: {fileID: 778712788}
+  - component: {fileID: 778712789}
   m_Layer: 0
   m_Name: Simulation
   m_TagString: Untagged
@@ -387,7 +904,7 @@ Transform:
   m_LocalScale: {x: 20, y: 20, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &778712788
 MonoBehaviour:
@@ -404,15 +921,42 @@ MonoBehaviour:
   simShader: {fileID: 4800000, guid: 2bb462de6f1ef2d499d5cbc2481cb619, type: 3}
   initShader: {fileID: 4800000, guid: 1e8d072e7a6381d4e9d5c3b538e88273, type: 3}
   sim: []
-  textureResolution: 1024
+  textureResolution: 2048
   simStates: 26
   currentState: 0
   historyTracker: 0
-  initialState: {fileID: 0}
+  initialState: {fileID: 2800000, guid: db259e8dc7358484183ccc860de737b2, type: 3}
   displaySimulation: 1
-  generateStart: 1
+  generateStart: 0
   updateOverTime: 1
   refreshRate: 30
+--- !u!114 &778712789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778712783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53845ed441c221488d24357ad7eb424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commandComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 475629343}
+        m_TargetAssemblyTypeName: Libretto.LevelLibretto, Assembly-CSharp
+        m_MethodName: CompleteCommand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &778731414
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +1031,139 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778731414}
   m_CullTransparentMesh: 0
+--- !u!1001 &804490918
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1583505942}
+    m_Modifications:
+    - target: {fileID: 4671594991198870125, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127341, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: continueDialogue.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127341, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: continueDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127341, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: continueDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127341, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: continueDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 475629343}
+    - target: {fileID: 6727533524120127341, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: continueDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Libretto.LevelLibretto, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127341, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: continueDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CompleteCommand
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127341, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: continueDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127342, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533524120127343, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_Name
+      value: VN Dialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533525165195439, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533525556918961, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533525556918961, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727533525556918962, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025989712413769427, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025989712413769427, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025989712413769427, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025989712413769427, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025989712413769427, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025989712413769427, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7025989712413769427, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
 --- !u!1 &1049893621
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,14 +1187,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1049893621}
-  m_LocalRotation: {x: 0.27711672, y: -0.000000029802319, z: -0, w: 0.9608363}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1687258585}
   m_Father: {fileID: 1429111905}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 32.176, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!850595691 &1201362334
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -643,7 +1320,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1392791993
 GameObject:
@@ -737,7 +1414,7 @@ RectTransform:
   m_Children:
   - {fileID: 522432721}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -754,6 +1431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1429111905}
   - component: {fileID: 1429111904}
+  - component: {fileID: 1429111906}
   m_Layer: 0
   m_Name: Camera Rig
   m_TagString: Untagged
@@ -776,9 +1454,11 @@ MonoBehaviour:
   cam: {fileID: 1687258584}
   cameraTransform: {fileID: 1687258585}
   craneTransform: {fileID: 1049893622}
+  inputBlocked: 0
+  outputBlocked: 0
   cameraFOV: 10
   cameraSmoothingSpeed: 10
-  keyboardMovementSpeedSlow: 0.04
+  keyboardMovementSpeedSlow: 0.02
   keyboardMovementSpeedFast: 0.1
   keyboardRotationSpeedSlow: 0.3
   keyboardRotationSpeedFast: 0.5
@@ -786,9 +1466,9 @@ MonoBehaviour:
   keyboardZoomSpeedFast: 3
   mouseRotationSpeed: 0.2
   mouseZoomSpeed: 5
-  craneAngleMin: 15
-  craneAngleMax: 60
-  cameraDistanceMin: 10
+  craneAngleMin: 10
+  craneAngleMax: 80
+  cameraDistanceMin: 2
   cameraDistanceMax: 100
 --- !u!4 &1429111905
 Transform:
@@ -803,8 +1483,35 @@ Transform:
   m_Children:
   - {fileID: 1049893622}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &1429111906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429111903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbaaaf30cc3505b499f2ae5e1e0e95a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commandComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 475629343}
+        m_TargetAssemblyTypeName: Libretto.LevelLibretto, Assembly-CSharp
+        m_MethodName: CompleteCommand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1477151711
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,7 +1682,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1583505939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,7 +1739,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1049,6 +1756,7 @@ RectTransform:
   m_Children:
   - {fileID: 752393128}
   - {fileID: 2012276146}
+  - {fileID: 1979077247}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1135,7 +1843,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0, z: -100}
+  m_LocalPosition: {x: 0, y: -0, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1049893622}
@@ -1324,6 +2032,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893159265}
   m_CullTransparentMesh: 0
+--- !u!224 &1979077247 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7025989712413769427, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+  m_PrefabInstance: {fileID: 804490918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1979077248 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6727533524120127341, guid: 48944eefd6ddd0447a17f871bb3e25d8, type: 3}
+  m_PrefabInstance: {fileID: 804490918}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4122906e4c20e40946671cc094c4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &2010396340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2010396341}
+  - component: {fileID: 2010396342}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2010396341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010396340}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2010396342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010396340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9beb8e847e2d5394d9f7556442046525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  libretto: {fileID: 475629343}
 --- !u!1 &2012276145
 GameObject:
   m_ObjectHideFlags: 0
@@ -1343,7 +2111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2012276146
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1549,5 +2317,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 90}

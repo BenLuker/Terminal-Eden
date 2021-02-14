@@ -13,7 +13,7 @@
 
         _GrowSpawn ("Grow Spawn Rate", Float) = 0.000005
         _OvergrowSpawn ("Overgrow Spawn Rate", Float) = 0.0000005
-        _FireSpawn ("Fire Spawn Rate", Float) = 0.000005
+        _FireSpawn ("Fire Spawn Rate", Float) = 0.00001
 
         _GrowSpread ("Grow Spread", Range (0, 1)) = 0.001
         _OvergrowSpread ("Overgrow Spread", Range (0, 1)) = 0.001
