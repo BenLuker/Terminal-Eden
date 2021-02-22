@@ -4,10 +4,8 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
 
-        _Grown ("Grown Color", Color) = (0, 1, 0, 1)
-        _Overgrown ("Overgrown Color", Color) = (0, 0, 1, 1)
-        _Fire ("Fire Color", Color) = (1, 0, 0, 1)
-        _Burned ("Burned Color", Color) = (0, 0, 0, 1)
+        _Dense ("Dense Color", Color) = (0, 0, 0, 1)
+        _Clear ("Clear Color", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -40,10 +38,8 @@
             sampler2D _MainTex;
             int textureSize;
 
-            fixed4 _Grown;
-            fixed4 _Overgrown;
-            fixed4 _Fire;
-            fixed4 _Burned;
+            fixed4 _Dense;
+            fixed4 _Clear;
 
             v2f vert (appdata v)
             {
@@ -61,7 +57,12 @@
                 fixed4 neighborData = fixed4(0,0,0,1);
                 int textureSize;
 
-                // Calculate Immediate Neighbors
+                // Grab Current Pixel
+                fixed4 c = tex2D(_MainTex, uv);
+
+                // Calculate Self and Immediate Neighbors
+                neighborData += c;
+
                 // Top Row
                 neighborData += tex2D(_MainTex, uv + float2(-step, step)); 
                 neighborData += tex2D(_MainTex, uv + float2(0, step)); 
@@ -76,14 +77,11 @@
                 neighborData += tex2D(_MainTex, uv + float2(0, -step)); 
                 neighborData += tex2D(_MainTex, uv + float2(step, -step));
 
-                // Grab Current Pixel
-                fixed4 c = tex2D(_MainTex, uv);
-
                 // Calculate vegetation density by remapping the B value
-                float d = lerp(1, 0, neighborData.b/8);
+                float d = lerp(0, 1, neighborData.b/8);
 
-                // Return value
-                return fixed4(d,d,d,1);
+                // Lerp between colors
+                return lerp(_Clear, _Dense, d);
             }
             ENDCG
         }
