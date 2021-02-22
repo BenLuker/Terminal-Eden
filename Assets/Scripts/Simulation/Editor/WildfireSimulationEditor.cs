@@ -35,6 +35,9 @@ public class WildfireSimulationEditor : Editor
         GUIStyle headerStyle = new GUIStyle();
         headerStyle.fontStyle = FontStyle.Bold;
 
+        _sim.displayMat = (Material)EditorGUILayout.ObjectField("Display Material", _sim.displayMat, typeof(Material), true);
+        EditorGUILayout.Space(10);
+
         #region Realtime Controls
 
         GUILayout.Label("Realtime Controls", headerStyle);
@@ -69,10 +72,7 @@ public class WildfireSimulationEditor : Editor
         GUILayout.Label("Simulation Settings", headerStyle);
 
         // Simulation Shader and Render Texture
-        GUI.enabled = false;
-        EditorGUILayout.ObjectField("Simulation Shader", _sim.simShader, typeof(Shader), true);
-
-        GUI.enabled = true;
+        _sim.simMat = (Material)EditorGUILayout.ObjectField("Simulation Material", _sim.simMat, typeof(Material), true);
         EditorGUILayout.Space(10);
 
         #endregion
@@ -94,11 +94,7 @@ public class WildfireSimulationEditor : Editor
         if (_sim.generateStart)
         {
             // Generation Settings
-            EditorGUI.indentLevel++;
-            GUI.enabled = false;
-            EditorGUILayout.ObjectField("Generation Shader", _sim.initShader, typeof(Shader), true);
-            GUI.enabled = true;
-            EditorGUI.indentLevel--;
+            _sim.initMat = (Material)EditorGUILayout.ObjectField("Generation Material", _sim.initMat, typeof(Material), true);
         }
         else
         {
@@ -107,6 +103,19 @@ public class WildfireSimulationEditor : Editor
         }
 
         GUI.enabled = true;
+        EditorGUILayout.Space(10);
+
+        #endregion
+
+        #region Perception Cameras
+
+        GUILayout.Label("Perception Cameras", headerStyle);
+
+        _sim.perception = (Perception)EditorGUILayout.EnumPopup("Perception Type", _sim.perception);
+
+        _sim.colorPerceptionMat = (Material)EditorGUILayout.ObjectField("Color Perception", _sim.colorPerceptionMat, typeof(Material), true);
+
+        _sim.vegetationDensityPerceptionMat = (Material)EditorGUILayout.ObjectField("Vegetation Density", _sim.vegetationDensityPerceptionMat, typeof(Material), true);
 
         #endregion
     }

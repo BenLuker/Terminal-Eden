@@ -66,6 +66,9 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
     public override void Awake()
     {
         base.Awake();
+
+        exRotX = Quaternion.identity;
+
         newPos = transform.position;
         newRotX = transform.rotation;
         newRotY = craneTransform.localRotation;

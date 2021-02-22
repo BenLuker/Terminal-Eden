@@ -1,17 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Perception { Color, VegetationDensity }
+
 public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
 {
-    // Shader Settings
-    public Shader simShader;
-    public Shader initShader;
+    // Display Material
+    public Material displayMat;
+    RenderTexture displayTexture;
 
-    Material simMat;
-    Material initMat;
-    Material displayMat;
+    // Sim Materials
+    public Material simMat;
+    public Material initMat;
 
+    // Perception Materials
+    public Perception perception;
+    public Material colorPerceptionMat;
+    public Material vegetationDensityPerceptionMat;
+
+    // Simulation Settings
     public RenderTexture[] sim;
 
     public int textureResolution = 1024;
@@ -27,16 +36,16 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
 
     #region Events
 
-    private void Reset()
-    {
-        simShader = Shader.Find("Hidden/WildfireSimulation");
-        initShader = Shader.Find("Hidden/GenerateTerrain");
-    }
-
     private void Start()
     {
         InitSimulation();
         if (updateOverTime) ExecuteSimulation();
+        UpdateDisplay();
+    }
+
+    private void Update()
+    {
+        UpdateDisplay();
     }
 
     #endregion
@@ -61,6 +70,12 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
 
     void InitSimulation()
     {
+        // Create Display Render Texture
+        displayTexture = new RenderTexture(textureResolution, textureResolution, 1);
+        displayTexture.filterMode = FilterMode.Point;
+        displayTexture.Create();
+        displayMat.mainTexture = displayTexture;
+
         // Create Simulation Render Textures
         sim = new RenderTexture[simStates];
         for (int i = 0; i < simStates; i++)
@@ -77,23 +92,16 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
         // If starting is not generated, blit the initial state. Otherwise, blit a generated init
         if (generateStart)
         {
-            Graphics.Blit(sim[currentState], sim[currentState], new Material(initShader));
+            Graphics.Blit(sim[currentState], sim[currentState], initMat);
         }
         else
         {
             Graphics.Blit(initialState, sim[currentState]);
         }
 
-        // Create Material with Simulation Shader
-        simMat = new Material(simShader);
+        // Set simulation variables to all textures
         simMat.SetInt("textureSize", textureResolution);
-
-        // Create Material with Display Shader
-        Renderer rend = GetComponent<Renderer>();
-        rend.enabled = true;
-
-        displayMat = rend.material;
-        displayMat.mainTexture = sim[currentState];
+        vegetationDensityPerceptionMat.SetInt("textureSize", textureResolution);
     }
 
     [ContextMenu("Calculate Step")]
@@ -104,8 +112,6 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
         historyTracker += historyTracker < simStates - 1 ? 1 : 0;
 
         Graphics.Blit(sim[prevState], sim[currentState], simMat);
-
-        displayMat.mainTexture = sim[currentState];
     }
 
     [ContextMenu("Undo Step")]
@@ -115,7 +121,6 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
         {
             historyTracker--;
             currentState = ((currentState - 1) + simStates) % simStates;
-            displayMat.mainTexture = sim[currentState];
         }
         else
         {
@@ -139,6 +144,19 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
         System.IO.File.WriteAllBytes(path + "/SavedTexture.png", bytes);
     }
 
+    void UpdateDisplay()
+    {
+        switch (perception)
+        {
+            case Perception.Color:
+                Graphics.Blit(sim[currentState], displayTexture, colorPerceptionMat);
+                break;
+            case Perception.VegetationDensity:
+                Graphics.Blit(sim[currentState], displayTexture, vegetationDensityPerceptionMat);
+                break;
+        }
+    }
+
     public void ExecuteSimulation()
     {
         StartCoroutine(ExecuteSimulationCoroutine());
@@ -157,4 +175,19 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
             yield return new WaitForSeconds(1 / (float)refreshRate);
         }
     }
+
+    #region Helper Functions
+
+    public Vector2Int WorldToCell(Vector3 pos)
+    {
+        float xPos = Mathf.InverseLerp(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2, pos.x);
+        float zPos = Mathf.InverseLerp(transform.position.z - transform.localScale.y / 2, transform.position.z + transform.localScale.y / 2, pos.z);
+
+        int x = (int)Mathf.Round(Mathf.Lerp(0, textureResolution, xPos));
+        int z = (int)Mathf.Round(Mathf.Lerp(0, textureResolution, zPos));
+
+        return new Vector2Int(x, z);
+    }
+
+    #endregion
 }

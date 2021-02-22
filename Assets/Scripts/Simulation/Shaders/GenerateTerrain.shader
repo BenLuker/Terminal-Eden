@@ -1,4 +1,4 @@
-﻿Shader "Hidden/GenerateTerrain"
+﻿Shader "Terminal Eden/Generate Terrain"
 {
     Properties
     {

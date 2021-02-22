@@ -32,8 +32,9 @@ public class TopDownCameraControllerEditor : Editor
         GUIStyle headerStyle = new GUIStyle();
         headerStyle.fontStyle = FontStyle.Bold;
 
-        // Input Blocking
+        // Input/Output Blocking
         _cam.inputBlocked = EditorGUILayout.Toggle("Input Block", _cam.inputBlocked);
+        _cam.outputBlocked = EditorGUILayout.Toggle("Output Block", _cam.outputBlocked);
 
         // FOV slider
         _cam.cameraFOV = EditorGUILayout.Slider("Field of View", _cam.cameraFOV, 0f, 100f);

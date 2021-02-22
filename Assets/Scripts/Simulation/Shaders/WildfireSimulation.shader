@@ -1,4 +1,4 @@
-﻿Shader "Hidden/WildfireSimulation"
+﻿Shader "Terminal Eden/Simulation"
 {
     Properties
     {

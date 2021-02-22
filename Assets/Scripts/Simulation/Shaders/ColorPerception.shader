@@ -1,4 +1,4 @@
-﻿Shader "Unlit/SimulationDisplay"
+﻿Shader "Terminal Eden/Perception/Color"
 {
     Properties
     {
