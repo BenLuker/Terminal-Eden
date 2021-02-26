@@ -46,6 +46,8 @@ public class TopDownCameraControllerEditor : Editor
         // Camera Limits (Angle and Zoom)
         GUILayout.Label("Camera Limits", headerStyle);
 
+        _cam.maxPos = EditorGUILayout.Slider("Maximum Distance", _cam.maxPos, 1f, 20f);
+
         GUILayout.BeginHorizontal();
         GUILayout.Label("Camera Angle", GUILayout.Width(125));
         _cam.craneAngleMin = EditorGUILayout.FloatField(_cam.craneAngleMin, GUILayout.Width(50));

@@ -31,6 +31,7 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
     public float mouseZoomSpeed = 5f;
 
     [Header("Camera Limits")]
+    public float maxPos = 10f;
     public float craneAngleMin = 15f;
     public float craneAngleMax = 60f;
     public float cameraDistanceMin = 50f;
@@ -89,6 +90,22 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
         if (!outputBlocked)
         {
             // Clamp to limits
+            if (newPos.x > maxPos)
+            {
+                newPos = new Vector3(maxPos, newPos.y, newPos.z);
+            }
+            if (newPos.x < -maxPos)
+            {
+                newPos = new Vector3(-maxPos, newPos.y, newPos.z);
+            }
+            if (newPos.z > maxPos)
+            {
+                newPos = new Vector3(newPos.x, newPos.y, maxPos);
+            }
+            if (newPos.z < -maxPos)
+            {
+                newPos = new Vector3(newPos.x, newPos.y, -maxPos);
+            }
             if (newRotY.eulerAngles.x < craneAngleMin)
             {
                 newRotY = Quaternion.Euler(Vector3.right * craneAngleMin);
