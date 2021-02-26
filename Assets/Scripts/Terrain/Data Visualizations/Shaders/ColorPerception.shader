@@ -18,6 +18,7 @@
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -44,6 +45,7 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float percentageVisible;
 
             fixed4 _Grown;
             fixed4 _Overgrown;
@@ -60,6 +62,10 @@
                 return length(delta) < tolerance ? true : false;
             }
 
+            bool inMask(float2 uv) {
+                return (uv.x < 0.5 + (percentageVisible / 2) && uv.x > 0.5 - (percentageVisible / 2) && uv.y < 0.5 + (percentageVisible / 2) && uv.y > 0.5 - (percentageVisible / 2)) ? true : false;
+            }
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -74,10 +80,14 @@
                 float2 uv = i.uv;
                 fixed4 c = tex2D(_MainTex, uv);
 
-                if (colorsMatch(c, _Grown)) return _GrownDisplay;
-                if (colorsMatch(c, _Overgrown)) return _OvergrownDisplay;
-                if (colorsMatch(c, _Fire)) return _FireDisplay;
-                if (colorsMatch(c, _Burned)) return _BurnedDisplay;
+                if (inMask(uv)) {
+                    if (colorsMatch(c, _Grown)) return _GrownDisplay;
+                    if (colorsMatch(c, _Overgrown)) return _OvergrownDisplay;
+                    if (colorsMatch(c, _Fire)) return _FireDisplay;
+                    if (colorsMatch(c, _Burned)) return _BurnedDisplay;
+                } else {
+                    return fixed4(0,0,0,0);
+                }
 
                 return c;
 

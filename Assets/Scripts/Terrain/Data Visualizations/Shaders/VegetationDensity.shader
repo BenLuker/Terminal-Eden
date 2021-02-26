@@ -11,7 +11,8 @@
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
-
+        Blend SrcAlpha OneMinusSrcAlpha
+        
         Pass
         {
             CGPROGRAM
@@ -37,9 +38,14 @@
 
             sampler2D _MainTex;
             int textureSize;
+            float percentageVisible;
 
             fixed4 _Dense;
             fixed4 _Clear;
+
+            bool inMask(float2 uv) {
+                return (uv.x < 0.5 + (percentageVisible / 2) && uv.x > 0.5 - (percentageVisible / 2) && uv.y < 0.5 + (percentageVisible / 2) && uv.y > 0.5 - (percentageVisible / 2)) ? true : false;
+            }
 
             v2f vert (appdata v)
             {
@@ -81,7 +87,11 @@
                 float d = lerp(0, 1, neighborData.b/8);
 
                 // Lerp between colors
-                return lerp(_Clear, _Dense, d);
+                if (inMask(uv)) {
+                    return lerp(_Clear, _Dense, d);
+                } else {
+                    return fixed4(0,0,0,0);
+                }
             }
             ENDCG
         }

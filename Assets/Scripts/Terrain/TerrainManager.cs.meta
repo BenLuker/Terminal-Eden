@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d7741796b0b890f4ba6a5fc8f150259a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - visualizationNone: {fileID: 2100000, guid: da2fd96fa3ddd45428f266c52bb3a2d1, type: 2}
+  - visualizationColor: {fileID: 2100000, guid: 995f5a83b5e90f443aae638c287f38eb, type: 2}
+  - visualizationVegetationDensity: {fileID: 2100000, guid: 825bd00a4b0645c4c8b8667495b513d5, type: 2}
+  - visualizationTopography: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

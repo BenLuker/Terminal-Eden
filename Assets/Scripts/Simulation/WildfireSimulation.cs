@@ -2,26 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum Perception { Color, VegetationDensity }
+using UnityEngine.Events;
 
 public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
 {
-    // Display Material
-    public Material displayMat;
-    RenderTexture displayTexture;
-
     // Sim Materials
     public Material simMat;
     public Material initMat;
 
-    // Perception Materials
-    public Perception perception;
-    public Material colorPerceptionMat;
-    public Material vegetationDensityPerceptionMat;
-
     // Simulation Settings
     public RenderTexture[] sim;
+    RenderTexture displayTexture;
 
     public int textureResolution = 1024;
     public int simStates = 26;
@@ -34,23 +25,32 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
     public bool updateOverTime = true;
     public int refreshRate = 30;
 
+    public int visibleCellsWidth;
+
+    // Events
+    [System.Serializable] public class RenderTextureEvent : UnityEvent<RenderTexture> { }
+    [System.Serializable] public class FloatEvent : UnityEvent<float> { }
+
+    public RenderTextureEvent onSimulationTextureCreated = new RenderTextureEvent();
+    public FloatEvent onVisibleCellsChanged = new FloatEvent();
+
     #region Events
 
     private void Start()
     {
         InitSimulation();
         if (updateOverTime) ExecuteSimulation();
-        UpdateDisplay();
+        ChangeCellWidth(textureResolution);
     }
 
     private void Update()
     {
-        UpdateDisplay();
+        Graphics.Blit(sim[currentState], displayTexture);
     }
 
     #endregion
 
-    #region Public Methods and Variables
+    #region Public Methods
 
     public void PlayPauseSimulation(bool play)
     {
@@ -66,6 +66,12 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
         }
     }
 
+    public void ChangeCellWidth(int cellWidth)
+    {
+        onVisibleCellsChanged.Invoke((float)cellWidth / (float)textureResolution);
+        visibleCellsWidth = cellWidth;
+    }
+
     #endregion
 
     void InitSimulation()
@@ -74,7 +80,7 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
         displayTexture = new RenderTexture(textureResolution, textureResolution, 1);
         displayTexture.filterMode = FilterMode.Point;
         displayTexture.Create();
-        displayMat.mainTexture = displayTexture;
+        onSimulationTextureCreated.Invoke(displayTexture);
 
         // Create Simulation Render Textures
         sim = new RenderTexture[simStates];
@@ -101,7 +107,6 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
 
         // Set simulation variables to all textures
         simMat.SetInt("textureSize", textureResolution);
-        vegetationDensityPerceptionMat.SetInt("textureSize", textureResolution);
     }
 
     [ContextMenu("Calculate Step")]
@@ -144,19 +149,6 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
         System.IO.File.WriteAllBytes(path + "/SavedTexture.png", bytes);
     }
 
-    void UpdateDisplay()
-    {
-        switch (perception)
-        {
-            case Perception.Color:
-                Graphics.Blit(sim[currentState], displayTexture, colorPerceptionMat);
-                break;
-            case Perception.VegetationDensity:
-                Graphics.Blit(sim[currentState], displayTexture, vegetationDensityPerceptionMat);
-                break;
-        }
-    }
-
     public void ExecuteSimulation()
     {
         StartCoroutine(ExecuteSimulationCoroutine());
@@ -175,19 +167,4 @@ public class WildfireSimulation : SingletonBehaviour<WildfireSimulation>
             yield return new WaitForSeconds(1 / (float)refreshRate);
         }
     }
-
-    #region Helper Functions
-
-    public Vector2Int WorldToCell(Vector3 pos)
-    {
-        float xPos = Mathf.InverseLerp(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2, pos.x);
-        float zPos = Mathf.InverseLerp(transform.position.z - transform.localScale.y / 2, transform.position.z + transform.localScale.y / 2, pos.z);
-
-        int x = (int)Mathf.Round(Mathf.Lerp(0, textureResolution, xPos));
-        int z = (int)Mathf.Round(Mathf.Lerp(0, textureResolution, zPos));
-
-        return new Vector2Int(x, z);
-    }
-
-    #endregion
 }

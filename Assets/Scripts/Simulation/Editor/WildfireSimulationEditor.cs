@@ -9,16 +9,15 @@ public class WildfireSimulationEditor : Editor
 {
     WildfireSimulation _sim;
 
-    // Texture resolution
-    // string[] resolutionOptions = new string[] { "16 x 16", "32 x 32", "64 x 64", "128 x 128", "256 x 256", "512 x 512", "1024 x 1024", "2048 x 2048", "4096 x 4096" };
-    // int resolutionIndex;
+    SerializedProperty onSimulationTextureCreated;
+    SerializedProperty onVisibleCellsChanged;
 
     void OnEnable()
     {
         _sim = (WildfireSimulation)target;
 
-        // Texture resolution
-        // resolutionIndex = (int)Mathf.Round((-4 + (Mathf.Log(_sim.textureResolution) / Mathf.Log(2)))); // Convert resolution size to an index option number
+        onSimulationTextureCreated = serializedObject.FindProperty("onSimulationTextureCreated");
+        onVisibleCellsChanged = serializedObject.FindProperty("onVisibleCellsChanged");
     }
 
     public override void OnInspectorGUI()
@@ -35,7 +34,7 @@ public class WildfireSimulationEditor : Editor
         GUIStyle headerStyle = new GUIStyle();
         headerStyle.fontStyle = FontStyle.Bold;
 
-        _sim.displayMat = (Material)EditorGUILayout.ObjectField("Display Material", _sim.displayMat, typeof(Material), true);
+        // _sim.displayRenderer = (MeshRenderer)EditorGUILayout.ObjectField("Display Renderer", _sim.displayRenderer, typeof(MeshRenderer), true);
         EditorGUILayout.Space(10);
 
         #region Realtime Controls
@@ -73,6 +72,12 @@ public class WildfireSimulationEditor : Editor
 
         // Simulation Shader and Render Texture
         _sim.simMat = (Material)EditorGUILayout.ObjectField("Simulation Material", _sim.simMat, typeof(Material), true);
+
+        int visibleCellsWidth = _sim.visibleCellsWidth;
+        visibleCellsWidth = (int)Mathf.Round(EditorGUILayout.IntSlider("Revealed Cells Width", _sim.visibleCellsWidth, 0, _sim.textureResolution) / 2) * 2;
+        if (visibleCellsWidth != _sim.visibleCellsWidth)
+            _sim.ChangeCellWidth(visibleCellsWidth);
+
         EditorGUILayout.Space(10);
 
         #endregion
@@ -107,16 +112,15 @@ public class WildfireSimulationEditor : Editor
 
         #endregion
 
-        #region Perception Cameras
+        #region Events
 
-        GUILayout.Label("Perception Cameras", headerStyle);
+        GUILayout.Label("Events", headerStyle);
 
-        _sim.perception = (Perception)EditorGUILayout.EnumPopup("Perception Type", _sim.perception);
-
-        _sim.colorPerceptionMat = (Material)EditorGUILayout.ObjectField("Color Perception", _sim.colorPerceptionMat, typeof(Material), true);
-
-        _sim.vegetationDensityPerceptionMat = (Material)EditorGUILayout.ObjectField("Vegetation Density", _sim.vegetationDensityPerceptionMat, typeof(Material), true);
+        EditorGUILayout.PropertyField(onSimulationTextureCreated);
+        EditorGUILayout.PropertyField(onVisibleCellsChanged);
 
         #endregion
+
+        serializedObject.ApplyModifiedProperties();
     }
 }
