@@ -4,138 +4,122 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum Visualization { None, Color, VegetationDensity, Topography }
-
-[RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(MeshGenerator))]
-public class TerrainManager : MonoBehaviour
+namespace TerminalEden.Terrain
 {
 
-    MeshRenderer rend;
-    MeshGenerator generator;
+    // public enum Visualization { None, Color, VegetationDensity, Topography }
 
-    // Texture variables
-    RenderTexture displayTexture;
-    int textureSize;
-
-    // Mesh variables
-    float meshSize;
-    float targetVisibleTerrainPercent;
-    float visibleTerrainPercent;
-
-    // Data Visualizations
-    public Visualization vis;
-    Visualization prevVis;
-    public Material visualizationNone;
-    public Material visualizationColor;
-    public Material visualizationVegetationDensity;
-    public Material visualizationTopography;
-
-    public UnityEvent onVisualizationChange = new UnityEvent();
-
-    void Start()
+    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshGenerator))]
+    public class TerrainManager : MonoBehaviour
     {
-        rend = GetComponent<MeshRenderer>();
-        generator = GetComponent<MeshGenerator>();
-        CreateMesh();
-    }
+        MeshRenderer rend;
+        MeshGenerator generator;
 
-    void Update()
-    {
-        if (prevVis != vis)
-            ChangeVisualization();
-        UpdateVisualization();
-    }
+        // Texture variables
+        RenderTexture displayTexture;
+        int textureSize;
 
-    private void FixedUpdate()
-    {
-        visibleTerrainPercent = Vector2.Lerp(new Vector2(visibleTerrainPercent, 0), new Vector2(targetVisibleTerrainPercent, 0), Time.deltaTime * 10).x;
-    }
+        // Mesh variables
+        float meshSize;
+        float targetVisibleTerrainPercent;
+        float visibleTerrainPercent;
+        List<Vector4> selectedCells;
+        float selectedCellsSize;
 
-    void CreateMesh()
-    {
-        generator.CreateMesh();
-        meshSize = generator.size;
-    }
+        [System.Serializable] public class Vector2Event : UnityEvent<Vector2> { }
+        public Vector2Event onMouseOverTerrain = new Vector2Event();
+        public UnityEvent onVisualizationChange = new UnityEvent();
 
-    void ChangeVisualization()
-    {
-        switch (vis)
+        #region Events
+
+        void Start()
         {
-            case Visualization.None:
-                rend.material = visualizationNone;
-                break;
-            case Visualization.Color:
-                rend.material = visualizationColor;
-                rend.material.mainTexture = displayTexture;
-                break;
-            case Visualization.VegetationDensity:
-                rend.material = visualizationVegetationDensity;
-                rend.material.mainTexture = displayTexture;
-                rend.material.SetInt("textureSize", textureSize);
-                break;
-        }
-        onVisualizationChange.Invoke();
-        prevVis = vis;
-    }
+            rend = GetComponent<MeshRenderer>();
+            generator = GetComponent<MeshGenerator>();
+            CreateMesh();
 
-    void UpdateVisualization()
-    {
-        switch (vis)
+            selectedCells = new List<Vector4>();
+        }
+
+        void Update()
         {
-            case Visualization.None:
-                break;
-            case Visualization.Color:
-                rend.material.SetFloat("percentageVisible", visibleTerrainPercent);
-                break;
-            case Visualization.VegetationDensity:
-                rend.material.SetFloat("percentageVisible", visibleTerrainPercent);
-                break;
+            DetectMouseOverPosition();
+            UpdateMaterial();
         }
-    }
 
-    #region Public Methods
-
-    public void SetDisplayTexture(RenderTexture rt)
-    {
-        displayTexture = rt;
-        textureSize = rt.width;
-    }
-
-    public void ChangeVisualization(string name)
-    {
-        Visualization v = (Visualization)Enum.Parse(typeof(Visualization), name, true);
-        if (Enum.IsDefined(typeof(Visualization), v))
+        private void FixedUpdate()
         {
-            vis = v;
+            visibleTerrainPercent = Vector2.Lerp(new Vector2(visibleTerrainPercent, 0), new Vector2(targetVisibleTerrainPercent, 0), Time.deltaTime * 10).x;
         }
-        else
+
+        #endregion
+
+        void CreateMesh()
         {
-            Debug.LogErrorFormat("{0} could not be parsed as an enum.", name);
+            generator.CreateMesh();
+            meshSize = generator.size;
         }
+
+        void DetectMouseOverPosition()
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            LayerMask mask = LayerMask.GetMask("Terrain");
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+            {
+                onMouseOverTerrain.Invoke(hit.textureCoord);
+            }
+        }
+
+        public void UpdateMaterial()
+        {
+            rend.material.SetFloat("percentageVisible", visibleTerrainPercent);
+            if (selectedCells.Count > 0)
+            {
+                rend.material.SetVectorArray("_SelectedCells", selectedCells);
+                rend.material.SetFloat("_SelectedCellsSize", selectedCellsSize);
+            }
+        }
+
+        #region Public Methods
+
+        public void SetMaterial(Material mat)
+        {
+            rend.material = mat;
+            rend.material.mainTexture = displayTexture;
+            rend.material.SetInt("textureSize", textureSize);
+        }
+
+        public void SetDisplayTexture(RenderTexture rt)
+        {
+            displayTexture = rt;
+            textureSize = rt.width;
+        }
+
+        public void SetSelectedCells(List<Vector2> cells)
+        {
+            selectedCells.Clear();
+            for (int i = 0; i < 100; i++)
+            {
+                if (i < cells.Count)
+                {
+                    selectedCells.Add(cells[i]);
+                }
+                else
+                {
+                    selectedCells.Add(Vector4.zero);
+                }
+            }
+            selectedCellsSize = cells.Count;
+        }
+
+        public void SetVisibleTerrainWidthPercentage(float percentage)
+        {
+            targetVisibleTerrainPercent = percentage;
+        }
+
+        #endregion
+
     }
-
-    public void SetVisibleTerrainWidthPercentage(float percentage)
-    {
-        targetVisibleTerrainPercent = percentage;
-    }
-
-    #endregion
-
-    // public Vector2Int WorldToCell(Vector3 pos)
-    // {
-    //     int x = (int)Mathf.Round(pos.x.Remap(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2, 0, textureResolution));
-    //     int z = (int)Mathf.Round(pos.y.Remap(transform.position.z - transform.localScale.y / 2, transform.position.z + transform.localScale.y / 2, 0, textureResolution));
-
-    //     // x.Remap(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2, 0, textureResolution);
-    //     // z.Remap(transform.position.z - transform.localScale.y / 2, transform.position.z + transform.localScale.y / 2, 0, textureResolution);
-    //     // float xPos = Mathf.InverseLerp(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2, pos.x);
-    //     // float zPos = Mathf.InverseLerp(transform.position.z - transform.localScale.y / 2, transform.position.z + transform.localScale.y / 2, pos.z);
-
-    //     // int x = (int)Mathf.Round(Mathf.Lerp(0, textureResolution, xPos));
-    //     // int z = (int)Mathf.Round(Mathf.Lerp(0, textureResolution, zPos));
-
-    //     return new Vector2Int(x, z);
-    // }
-
 }

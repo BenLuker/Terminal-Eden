@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
+using TerminalEden.Simulation;
 
 [RequireComponent(typeof(WildfireSimulation))]
 public class SimulationLibrettoCommands : MonoBehaviour

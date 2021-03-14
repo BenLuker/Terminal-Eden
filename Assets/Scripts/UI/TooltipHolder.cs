@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using TMPro;
 
 public enum TooltipDirection { Up, Down, Left, Right };
 public enum TooltipAlignment { Centered, Up, Down, Left, Right };
 
-[ExecuteInEditMode()]
 public class TooltipHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-
     RectTransform rect;
 
     public string header;
@@ -29,7 +25,7 @@ public class TooltipHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        Tooltip.Instance.AlignTooltip(rect, direction, alignment);
+        Tooltip.Instance.AlignTooltip(rect, direction, alignment, offset);
         Tooltip.Instance.Show(header, content);
     }
 

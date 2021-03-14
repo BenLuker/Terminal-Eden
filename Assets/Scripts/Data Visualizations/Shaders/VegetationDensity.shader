@@ -1,4 +1,4 @@
-﻿Shader "Terminal Eden/Perception/Vegetation Density"
+﻿Shader "Terminal Eden/Data Visualization/Vegetation Density"
 {
     Properties
     {

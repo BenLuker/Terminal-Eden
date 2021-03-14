@@ -6,12 +6,15 @@ using UnityEditor;
 [CustomEditor(typeof(TopDownCameraController))]
 public class TopDownCameraControllerEditor : Editor
 {
-
     TopDownCameraController _cam;
+    SerializedProperty onMouseClick;
+    SerializedProperty onCameraMove;
 
     void OnEnable()
     {
         _cam = (TopDownCameraController)target;
+        onCameraMove = serializedObject.FindProperty("onCameraMove");
+        onMouseClick = serializedObject.FindProperty("onMouseClick");
     }
 
     public override void OnInspectorGUI()
@@ -93,5 +96,12 @@ public class TopDownCameraControllerEditor : Editor
         EditorGUILayout.MinMaxSlider(ref _cam.keyboardZoomSpeedSlow, ref _cam.keyboardZoomSpeedFast, 0.01f, 5f);
         _cam.keyboardZoomSpeedFast = EditorGUILayout.FloatField(_cam.keyboardZoomSpeedFast, GUILayout.Width(50));
         GUILayout.EndHorizontal();
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.PropertyField(onCameraMove);
+        EditorGUILayout.PropertyField(onMouseClick);
+
+        serializedObject.ApplyModifiedProperties();
     }
 }

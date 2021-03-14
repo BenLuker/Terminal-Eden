@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using TerminalEden.Simulation;
 
 [CustomEditor(typeof(WildfireSimulation))]
 public class WildfireSimulationEditor : Editor
@@ -10,6 +9,7 @@ public class WildfireSimulationEditor : Editor
     WildfireSimulation _sim;
 
     SerializedProperty onSimulationTextureCreated;
+    SerializedProperty onCellsSelected;
     SerializedProperty onVisibleCellsChanged;
 
     void OnEnable()
@@ -17,6 +17,7 @@ public class WildfireSimulationEditor : Editor
         _sim = (WildfireSimulation)target;
 
         onSimulationTextureCreated = serializedObject.FindProperty("onSimulationTextureCreated");
+        onCellsSelected = serializedObject.FindProperty("onCellsSelected");
         onVisibleCellsChanged = serializedObject.FindProperty("onVisibleCellsChanged");
     }
 
@@ -112,11 +113,24 @@ public class WildfireSimulationEditor : Editor
 
         #endregion
 
+        #region Abilities
+
+        GUILayout.Label("Abilities", headerStyle);
+
+        // Ability Mats
+        // _sim.growMat = (Material)EditorGUILayout.ObjectField("Grow Ability Mat", _sim.growMat, typeof(Material), true);
+        _sim.heldAbility = (Ability)EditorGUILayout.ObjectField("Held Ability", _sim.heldAbility, typeof(Ability), true);
+
+        EditorGUILayout.Space(10);
+
+        #endregion
+
         #region Events
 
         GUILayout.Label("Events", headerStyle);
 
         EditorGUILayout.PropertyField(onSimulationTextureCreated);
+        EditorGUILayout.PropertyField(onCellsSelected);
         EditorGUILayout.PropertyField(onVisibleCellsChanged);
 
         #endregion

@@ -159,21 +159,21 @@ public class Tooltip : SingletonBehaviour<Tooltip>
                 switch (alignment)
                 {
                     case TooltipAlignment.Centered:
-                        rect.position += new Vector3(origin.sizeDelta.x / 4 + offset, 0, 0);
+                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset, 0, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0, 0.5f);
                         layoutGroup.childAlignment = TextAnchor.MiddleLeft;
                         header.alignment = TextAlignmentOptions.Left;
                         content.alignment = TextAlignmentOptions.Left;
                         break;
                     case TooltipAlignment.Up:
-                        rect.position += new Vector3(origin.sizeDelta.x / 4 + offset, origin.sizeDelta.y / 4, 0);
+                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset, origin.sizeDelta.y / 2, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0, 1);
                         layoutGroup.childAlignment = TextAnchor.UpperLeft;
                         header.alignment = TextAlignmentOptions.Left;
                         content.alignment = TextAlignmentOptions.Left;
                         break;
                     case TooltipAlignment.Down:
-                        rect.position += new Vector3(origin.sizeDelta.x / 4 + offset, -origin.sizeDelta.y / 4, 0);
+                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset, -origin.sizeDelta.y / 2, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0, 0);
                         layoutGroup.childAlignment = TextAnchor.LowerLeft;
                         header.alignment = TextAlignmentOptions.Left;

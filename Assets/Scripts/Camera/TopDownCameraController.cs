@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TopDownCameraController : SingletonBehaviour<TopDownCameraController>
 {
@@ -54,6 +55,11 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
     Vector3 dragCurrentPosition;
     Vector3 rotateStartPosition;
     Vector3 rotateCurrentPosition;
+    float timeSinceMouseDown;
+
+    // Events
+    public UnityEvent onCameraMove = new UnityEvent();
+    public UnityEvent onMouseClick = new UnityEvent();
 
     #region Events
 
@@ -134,6 +140,11 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
 
             // Change FOV (utlilizing Vector2.Lerp to lerp a float)
             cam.fieldOfView = Vector2.Lerp(new Vector2(cam.fieldOfView, 0), new Vector2(cameraFOV, 0), Time.deltaTime * cameraSmoothingSpeed).x;
+
+            if (isMoving())
+            {
+                onCameraMove.Invoke();
+            }
         }
     }
 
@@ -334,6 +345,8 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
             {
                 dragStartPosition = ray.GetPoint(entry);
             }
+
+            timeSinceMouseDown = 0;
         }
         if (Input.GetMouseButton(0))
         {
@@ -347,6 +360,8 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
 
                 newPos = transform.position + dragStartPosition - dragCurrentPosition;
             }
+
+            timeSinceMouseDown += Time.deltaTime;
         }
 
         // Rotate
@@ -370,6 +385,16 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
         {
             newZoom += Vector3.forward * (Input.mouseScrollDelta.y * mouseZoomSpeed);
         }
+
+        // onMouseClick
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (Vector3.Distance(dragStartPosition, dragCurrentPosition) < 0.01 && timeSinceMouseDown < 0.5)
+            {
+                onMouseClick.Invoke();
+            }
+        }
+
     }
 
     void HandleKeyboardInput()
