@@ -51,7 +51,7 @@ public class Tooltip : SingletonBehaviour<Tooltip>
         tooltip.SetActive(false);
     }
 
-    public void AlignTooltip(RectTransform origin, TooltipDirection direction, TooltipAlignment alignment, float offset = 10f)
+    public void AlignTooltip(RectTransform origin, TooltipDirection direction, TooltipAlignment alignment, Vector2 offset)
     {
         rect.position = origin.position;
         Vector2 pivotOffset = (new Vector2(0.5f, 0.5f) - origin.pivot) * origin.sizeDelta * canvas.scaleFactor;
@@ -63,21 +63,21 @@ public class Tooltip : SingletonBehaviour<Tooltip>
                 switch (alignment)
                 {
                     case TooltipAlignment.Centered:
-                        rect.position += new Vector3(0, origin.sizeDelta.y / 2 + offset, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(offset.x, origin.sizeDelta.y / 2 + offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0.5f, 0);
                         layoutGroup.childAlignment = TextAnchor.MiddleCenter;
                         header.alignment = TextAlignmentOptions.Center;
                         content.alignment = TextAlignmentOptions.Center;
                         break;
                     case TooltipAlignment.Left:
-                        rect.position += new Vector3(-origin.sizeDelta.x / 2, origin.sizeDelta.y / 2 + offset, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(-origin.sizeDelta.x / 2 + offset.x, origin.sizeDelta.y / 2 + offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0, 0);
                         layoutGroup.childAlignment = TextAnchor.MiddleLeft;
                         header.alignment = TextAlignmentOptions.Left;
                         content.alignment = TextAlignmentOptions.Left;
                         break;
                     case TooltipAlignment.Right:
-                        rect.position += new Vector3(origin.sizeDelta.x / 2, origin.sizeDelta.y / 2 + offset, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset.x, origin.sizeDelta.y / 2 + offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(1, 0);
                         layoutGroup.childAlignment = TextAnchor.MiddleRight;
                         header.alignment = TextAlignmentOptions.Right;
@@ -95,21 +95,21 @@ public class Tooltip : SingletonBehaviour<Tooltip>
                 switch (alignment)
                 {
                     case TooltipAlignment.Centered:
-                        rect.position += new Vector3(0, -origin.sizeDelta.y / 2 - offset, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(offset.x, -origin.sizeDelta.y / 2 - offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0.5f, 1);
                         layoutGroup.childAlignment = TextAnchor.MiddleCenter;
                         header.alignment = TextAlignmentOptions.Center;
                         content.alignment = TextAlignmentOptions.Center;
                         break;
                     case TooltipAlignment.Left:
-                        rect.position += new Vector3(-origin.sizeDelta.x / 2, -origin.sizeDelta.y / 2 - offset, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(-origin.sizeDelta.x / 2 + offset.x, -origin.sizeDelta.y / 2 - offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0, 1);
                         layoutGroup.childAlignment = TextAnchor.MiddleLeft;
                         header.alignment = TextAlignmentOptions.Left;
                         content.alignment = TextAlignmentOptions.Left;
                         break;
                     case TooltipAlignment.Right:
-                        rect.position += new Vector3(origin.sizeDelta.x / 2, -origin.sizeDelta.y / 2 - offset, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset.x, -origin.sizeDelta.y / 2 - offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(1, 1);
                         layoutGroup.childAlignment = TextAnchor.MiddleRight;
                         header.alignment = TextAlignmentOptions.Right;
@@ -127,21 +127,21 @@ public class Tooltip : SingletonBehaviour<Tooltip>
                 switch (alignment)
                 {
                     case TooltipAlignment.Centered:
-                        rect.position += new Vector3(-origin.sizeDelta.x / 2 - offset, 0, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(-origin.sizeDelta.x / 2 - offset.x, offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(1, 0.5f);
                         layoutGroup.childAlignment = TextAnchor.MiddleRight;
                         header.alignment = TextAlignmentOptions.Right;
                         content.alignment = TextAlignmentOptions.Right;
                         break;
                     case TooltipAlignment.Up:
-                        rect.position += new Vector3(-origin.sizeDelta.x / 2 - offset, origin.sizeDelta.y / 2, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(-origin.sizeDelta.x / 2 - offset.x, origin.sizeDelta.y / 2 + offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(1, 1);
                         layoutGroup.childAlignment = TextAnchor.UpperRight;
                         header.alignment = TextAlignmentOptions.Right;
                         content.alignment = TextAlignmentOptions.Right;
                         break;
                     case TooltipAlignment.Down:
-                        rect.position += new Vector3(-origin.sizeDelta.x / 2 - offset, -origin.sizeDelta.y / 2, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(-origin.sizeDelta.x / 2 - offset.x, -origin.sizeDelta.y / 2 + offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(1, 0);
                         layoutGroup.childAlignment = TextAnchor.LowerRight;
                         header.alignment = TextAlignmentOptions.Right;
@@ -159,21 +159,21 @@ public class Tooltip : SingletonBehaviour<Tooltip>
                 switch (alignment)
                 {
                     case TooltipAlignment.Centered:
-                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset, 0, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset.x, offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0, 0.5f);
                         layoutGroup.childAlignment = TextAnchor.MiddleLeft;
                         header.alignment = TextAlignmentOptions.Left;
                         content.alignment = TextAlignmentOptions.Left;
                         break;
                     case TooltipAlignment.Up:
-                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset, origin.sizeDelta.y / 2, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset.x, origin.sizeDelta.y / 2 + offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0, 1);
                         layoutGroup.childAlignment = TextAnchor.UpperLeft;
                         header.alignment = TextAlignmentOptions.Left;
                         content.alignment = TextAlignmentOptions.Left;
                         break;
                     case TooltipAlignment.Down:
-                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset, -origin.sizeDelta.y / 2, 0) * canvas.scaleFactor;
+                        rect.position += new Vector3(origin.sizeDelta.x / 2 + offset.x, -origin.sizeDelta.y / 2 + offset.y, 0) * canvas.scaleFactor;
                         rect.pivot = new Vector2(0, 0);
                         layoutGroup.childAlignment = TextAnchor.LowerLeft;
                         header.alignment = TextAlignmentOptions.Left;

@@ -1,44 +1,38 @@
 Scene Cutscene Opening
-	StopSimulation
+    Wait 0.5
     BlockInput
-    StartTurntable -0.3
+    * Welcome to The Terminal.
+    * In a moment, I will introduce you to a garden.
+    * Your objective is to maintain this garden. Your performance will be evaluated.
     Wait 1
-    * Welcome to Terminal Eden's wildfire simulation.
-	* Allow me to explain what you're looking at here.
-    * This plane represents a terrain, and is comprised of small squares called "cells".
-    TweenZoom 30 2 smooth nowait
-    TweenYRot 60 2 smooth
-    * <i>Really</i> small squares.
-    TweenZoom 5 2 smooth
-    * There are just over 4 million cells in this simulation.
-    StopTurntable
-    BlockOutput
-    TweenMove 0 0 0 2 smooth nowait
-    TweenYRot 90 2 smooth nowait
-    TweenXRot 0 2 smooth nowait
-    TweenZoom 120 2 smooth
-    * Each cell is a different color, representing its state.
-    * And every state has a probability of turning into another state based on its surroundings.
-    * The dark brown cells represent areas with no vegetation.
-    * The light green cells represent areas with healthy vegetation.
-    * The dark green cells represent areas with overgrown vegetation.
-    * And when we start the simulation, you'll see fire represented as red cells.
-    * These fires will start randomly when the simulation is running.
-    * As you'll see, overgrown vegetation has a higher chance of catching fire than healthy vegetation.
-    * And of course, cells with no vegetation will not burn.
-    * This produces some interesting behaviors.
-    * Let's start the simulation.
-    PlaySimulation
-    Wait 3
-    * How about we get a closer look?
-    TweenZoom 25 2 smooth
-    Wait 2
-    * With a global wind variable set to East, you can see how this affects the fire propagation direction.
-    * But what you might not notice is how it also affects the vegetation. Fire isn't the only thing that spreads.
-    * Cells with healthy vegetation have a chance to spread to cells next to them without vegetation.
-    * And cells with overgrown vegetation have a chance to spread to cells with healthy vegetation.
-    * Additionally, grown and overgrown cells can spawn randomly, and then begin to spread.
-    * Why don't you explore for yourself?
-    UnblockOutput
+    UnlockTerrain 24 0
+    Wait 1
+    * This is your garden. Please select a data visulization to view relevant information of the garden.
     UnblockInput
-    * Use the <b>w a s d q</b> and <b>e</b>, plus the arrow keys on your keyboard, or your mouse, to navigate.
+    UnlockDataVis 0
+
+Scene Cutscene FirstDataVisualization
+    Wait 0.5
+    * Currently, your garden is full of soil. Why don't you try planting a seed?
+    UnlockAbility 0
+
+Scene Cutscene FirstAbility
+    Wait 0.5
+    * Now run the simulation.
+    SetCycles 50
+    UnlockCycles 0
+
+Scene Cutscene NewTerritory
+    BlockInput
+    Wait 0.5
+    UnlockTerrain 128 1
+    * New Terrain Unlocked
+    Wait 0.5
+    UnlockForestLevels
+    Wait 0.25
+    UnlockDatabase
+    Wait 0.25
+    UnlockDataVis 1
+    Wait 0.25
+    UnlockAbility 1
+    UnblockInput

@@ -3,7 +3,13 @@ guid: aef1eb993651f274e88473b8433e2383
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - simMat: {fileID: 2100000, guid: 8f5ead3e2ccb1b34da4f5edf4f14f065, type: 2}
+  - initMat: {fileID: 2100000, guid: ed900c2fe7eb41f4a92fe3eafba56120, type: 2}
+  - calculateOverallLevels: {fileID: 2100000, guid: cd5d6e33c12ccad4d91e514f574ea087, type: 2}
+  - readState: {instanceID: 0}
+  - initialState: {instanceID: 0}
+  - heldAbility: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

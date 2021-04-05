@@ -3,48 +3,45 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(TopDownCameraController))]
-public class TopDownCameraLibrettoCommands : MonoBehaviour
+public class TopDownCameraLibrettoCommands : LibrettoCommands<TopDownCameraController>
 {
-    public UnityEvent commandComplete;
-
-    #region Methods for Libretto
 
     #region Settings
 
     // No Arguments
     public void BlockInput(string arguments)
     {
-        TopDownCameraController.Instance.SetInputBlock(true);
-        commandComplete.Invoke();
+        subject.SetInputBlock(true);
+        onCommandComplete.Invoke();
     }
 
     // No Arguments
     public void UnblockInput(string arguments)
     {
-        TopDownCameraController.Instance.SetInputBlock(false);
-        commandComplete.Invoke();
+        subject.SetInputBlock(false);
+        onCommandComplete.Invoke();
     }
 
     // No Arguments
     public void BlockOutput(string arguments)
     {
-        TopDownCameraController.Instance.SetBlockOutput(true);
-        commandComplete.Invoke();
+        subject.SetBlockOutput(true);
+        onCommandComplete.Invoke();
     }
 
     // No Arguments
     public void UnblockOutput(string arguments)
     {
-        TopDownCameraController.Instance.SetBlockOutput(false);
-        commandComplete.Invoke();
+        subject.SetBlockOutput(false);
+        onCommandComplete.Invoke();
     }
 
     // Command speed
     public void SetCameraSmoothingSpeed(string arguments)
     {
         float speed = float.Parse(arguments);
-        TopDownCameraController.Instance.SetCameraSmoothingSpeed(speed);
-        commandComplete.Invoke();
+        subject.SetCameraSmoothingSpeed(speed);
+        onCommandComplete.Invoke();
     }
 
     #endregion
@@ -65,11 +62,11 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         bool smooth = System.Array.IndexOf(a, "smooth") > -1 ? true : false;
         bool noWait = System.Array.IndexOf(a, "nowait") > -1 ? true : false;
 
-        TopDownCameraController.Instance.SetPosition(new Vector3(x, y, z), smooth);
+        subject.SetPosition(new Vector3(x, y, z), smooth);
 
         if (noWait)
         {
-            commandComplete.Invoke();
+            onCommandComplete.Invoke();
         }
         else
         {
@@ -91,11 +88,11 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         bool smooth = System.Array.IndexOf(a, "smooth") > -1 ? true : false;
         bool noWait = System.Array.IndexOf(a, "nowait") > -1 ? true : false;
 
-        TopDownCameraController.Instance.SetPositionRelative(new Vector3(x, y, z), smooth);
+        subject.SetPositionRelative(new Vector3(x, y, z), smooth);
 
         if (noWait)
         {
-            commandComplete.Invoke();
+            onCommandComplete.Invoke();
         }
         else
         {
@@ -115,11 +112,11 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         bool smooth = System.Array.IndexOf(a, "smooth") > -1 ? true : false;
         bool noWait = System.Array.IndexOf(a, "nowait") > -1 ? true : false;
 
-        TopDownCameraController.Instance.SetZoom(-distance, smooth);
+        subject.SetZoom(-distance, smooth);
 
         if (noWait)
         {
-            commandComplete.Invoke();
+            onCommandComplete.Invoke();
         }
         else
         {
@@ -146,11 +143,11 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         bool ease = System.Array.IndexOf(a, "smooth") > -1 ? true : false;
         bool noWait = System.Array.IndexOf(a, "nowait") > -1 ? true : false;
 
-        TopDownCameraController.Instance.TweenPosition(new Vector3(x, y, z), time, ease);
+        subject.TweenPosition(new Vector3(x, y, z), time, ease);
 
         if (noWait)
         {
-            commandComplete.Invoke();
+            onCommandComplete.Invoke();
         }
         else
         {
@@ -173,11 +170,11 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         bool ease = System.Array.IndexOf(a, "smooth") > -1 ? true : false;
         bool noWait = System.Array.IndexOf(a, "nowait") > -1 ? true : false;
 
-        TopDownCameraController.Instance.TweenPositionRelative(new Vector3(x, y, z), time, ease);
+        subject.TweenPositionRelative(new Vector3(x, y, z), time, ease);
 
         if (noWait)
         {
-            commandComplete.Invoke();
+            onCommandComplete.Invoke();
         }
         else
         {
@@ -199,11 +196,11 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         bool ease = System.Array.IndexOf(a, "smooth") > -1 ? true : false;
         bool noWait = System.Array.IndexOf(a, "nowait") > -1 ? true : false;
 
-        TopDownCameraController.Instance.TweenXRotation(angle, time, ease);
+        subject.TweenXRotation(angle, time, ease);
 
         if (noWait)
         {
-            commandComplete.Invoke();
+            onCommandComplete.Invoke();
         }
         else
         {
@@ -225,11 +222,11 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         bool ease = System.Array.IndexOf(a, "smooth") > -1 ? true : false;
         bool noWait = System.Array.IndexOf(a, "nowait") > -1 ? true : false;
 
-        TopDownCameraController.Instance.TweenYRotation(angle, time, ease);
+        subject.TweenYRotation(angle, time, ease);
 
         if (noWait)
         {
-            commandComplete.Invoke();
+            onCommandComplete.Invoke();
         }
         else
         {
@@ -250,11 +247,11 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         bool ease = System.Array.IndexOf(a, "smooth") > -1 ? true : false;
         bool noWait = System.Array.IndexOf(a, "nowait") > -1 ? true : false;
 
-        TopDownCameraController.Instance.TweenZoom(-distance, seconds, ease);
+        subject.TweenZoom(-distance, seconds, ease);
 
         if (noWait)
         {
-            commandComplete.Invoke();
+            onCommandComplete.Invoke();
         }
         else
         {
@@ -274,18 +271,16 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
         // Required Arguments
         float speed = float.Parse(a[0]);
 
-        TopDownCameraController.Instance.StartTurntable(speed);
-        commandComplete.Invoke();
+        subject.StartTurntable(speed);
+        onCommandComplete.Invoke();
     }
 
     // No Arguments
     public void StopTurntable(string arguments)
     {
-        TopDownCameraController.Instance.StopTurntable();
-        commandComplete.Invoke();
+        subject.StopTurntable();
+        onCommandComplete.Invoke();
     }
-
-    #endregion
 
     #endregion
 
@@ -293,26 +288,26 @@ public class TopDownCameraLibrettoCommands : MonoBehaviour
 
     IEnumerator ReturnMoveCompleted()
     {
-        while (TopDownCameraController.Instance.isMoving()) yield return null;
-        commandComplete.Invoke();
+        while (subject.isMoving()) yield return null;
+        onCommandComplete.Invoke();
     }
 
     IEnumerator ReturnRotateXCompleted()
     {
-        while (TopDownCameraController.Instance.isRotatingX()) yield return null;
-        commandComplete.Invoke();
+        while (subject.isRotatingX()) yield return null;
+        onCommandComplete.Invoke();
     }
 
     IEnumerator ReturnRotateYCompleted()
     {
-        while (TopDownCameraController.Instance.isRotatingY()) yield return null;
-        commandComplete.Invoke();
+        while (subject.isRotatingY()) yield return null;
+        onCommandComplete.Invoke();
     }
 
     IEnumerator ReturnZoomCompleted()
     {
-        while (TopDownCameraController.Instance.isZooming()) yield return null;
-        commandComplete.Invoke();
+        while (subject.isZooming()) yield return null;
+        onCommandComplete.Invoke();
     }
 
     #endregion

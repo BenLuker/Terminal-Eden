@@ -6,12 +6,9 @@ using UnityEngine.Events;
 
 namespace TerminalEden.Terrain
 {
-
-    // public enum Visualization { None, Color, VegetationDensity, Topography }
-
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshGenerator))]
-    public class TerrainManager : MonoBehaviour
+    public class TerrainManager : SingletonBehaviour<TerrainManager>
     {
         MeshRenderer rend;
         MeshGenerator generator;
@@ -83,6 +80,11 @@ namespace TerminalEden.Terrain
         }
 
         #region Public Methods
+
+        public float GetMeshSize()
+        {
+            return meshSize;
+        }
 
         public void SetMaterial(Material mat)
         {

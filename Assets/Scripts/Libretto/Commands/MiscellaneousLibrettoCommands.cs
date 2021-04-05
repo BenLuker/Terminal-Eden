@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using Libretto;
 
-public class MiscellaneousLibrettoCommands : MonoBehaviour
+[RequireComponent(typeof(LevelLibretto))]
+public class MiscellaneousLibrettoCommands : LibrettoCommands<LevelLibretto>
 {
-
-    public UnityEvent commandComplete;
-
     private IEnumerator wait;
 
     #region Methods for Libretto
@@ -26,6 +24,6 @@ public class MiscellaneousLibrettoCommands : MonoBehaviour
     IEnumerator ReturnAfterSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        commandComplete.Invoke();
+        onCommandComplete.Invoke();
     }
 }

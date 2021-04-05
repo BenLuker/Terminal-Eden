@@ -1,0 +1,392 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8961707070493726362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8961707070493726372}
+  - component: {fileID: 8961707070493726363}
+  - component: {fileID: 8961707070493726373}
+  m_Layer: 0
+  m_Name: Level Libretto
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8961707070493726372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8961707070493726362}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8961707070493726363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8961707070493726362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e493ad0e56c82438ec2d5212b56738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scenes:
+  - name: Opening
+    type: Cutscene
+    commands:
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 0.5
+    - keyword:
+        name: BlockInput
+        eventIndex: 1
+      arguments: 0.5
+    - keyword:
+        name: '*'
+        eventIndex: 2
+      arguments: Welcome to The Terminal.
+    - keyword:
+        name: '*'
+        eventIndex: 2
+      arguments: In a moment, I will introduce you to a garden.
+    - keyword:
+        name: '*'
+        eventIndex: 2
+      arguments: Your objective is to maintain this garden. Your performance will
+        be evaluated.
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 1
+    - keyword:
+        name: UnlockTerrain
+        eventIndex: 3
+      arguments: 24 0
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 1
+    - keyword:
+        name: '*'
+        eventIndex: 2
+      arguments: This is your garden. Please select a data visulization to view relevant
+        information of the garden.
+    - keyword:
+        name: UnblockInput
+        eventIndex: 4
+      arguments: 
+    - keyword:
+        name: UnlockDataVis
+        eventIndex: 5
+      arguments: 0
+  - name: FirstDataVisualization
+    type: Cutscene
+    commands:
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 0.5
+    - keyword:
+        name: '*'
+        eventIndex: 2
+      arguments: Currently, your garden is full of soil. Why don't you try planting
+        a seed?
+    - keyword:
+        name: UnlockAbility
+        eventIndex: 6
+      arguments: 0
+  - name: FirstAbility
+    type: Cutscene
+    commands:
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 0.5
+    - keyword:
+        name: '*'
+        eventIndex: 2
+      arguments: Now run the simulation.
+    - keyword:
+        name: SetCycles
+        eventIndex: 7
+      arguments: 50
+    - keyword:
+        name: UnlockCycles
+        eventIndex: 8
+      arguments: 0
+  - name: NewTerritory
+    type: Cutscene
+    commands:
+    - keyword:
+        name: BlockInput
+        eventIndex: 1
+      arguments: 
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 0.5
+    - keyword:
+        name: UnlockTerrain
+        eventIndex: 3
+      arguments: 128 1
+    - keyword:
+        name: '*'
+        eventIndex: 2
+      arguments: New Terrain Unlocked
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 0.5
+    - keyword:
+        name: UnlockForestLevels
+        eventIndex: 9
+      arguments: 
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 0.25
+    - keyword:
+        name: UnlockDatabase
+        eventIndex: 10
+      arguments: 0
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 0.25
+    - keyword:
+        name: UnlockDataVis
+        eventIndex: 5
+      arguments: 1
+    - keyword:
+        name: Wait
+        eventIndex: 0
+      arguments: 0.25
+    - keyword:
+        name: UnlockAbility
+        eventIndex: 6
+      arguments: 1
+    - keyword:
+        name: UnblockInput
+        eventIndex: 4
+      arguments: 0
+  events:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8961707070493726373}
+        m_TargetAssemblyTypeName: MiscellaneousLibrettoCommands, Assembly-CSharp
+        m_MethodName: Wait
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: BlockInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: VNDialogue, Assembly-CSharp
+        m_MethodName: NarratorTalk
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManagerLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnlockTerrain
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TopDownCameraLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnblockInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DataVisualizationsLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnlockVisualization
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AbilitiesLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnlockAbility
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CyclesLibrettoCommands, Assembly-CSharp
+        m_MethodName: SetCycle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CyclesLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnlockCycles
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ForestLevelsLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnlockForestLevels
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DatabaseLibrettoCommands, Assembly-CSharp
+        m_MethodName: UnlockDatabase
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  keywords:
+  - type: Cutscene
+    keywords:
+    - name: Wait
+      eventIndex: 0
+    - name: BlockInput
+      eventIndex: 1
+    - name: '*'
+      eventIndex: 2
+    - name: UnlockTerrain
+      eventIndex: 3
+    - name: UnblockInput
+      eventIndex: 4
+    - name: UnlockDataVis
+      eventIndex: 5
+    - name: UnlockAbility
+      eventIndex: 6
+    - name: SetCycles
+      eventIndex: 7
+    - name: UnlockCycles
+      eventIndex: 8
+    - name: UnlockForestLevels
+      eventIndex: 9
+    - name: UnlockDatabase
+      eventIndex: 10
+  levelInfo: {fileID: 4900000, guid: e3241717523e1224ab3f40379726f00e, type: 3}
+  levelData: "Scene Cutscene Opening\r\n    Wait 0.5\r\n    BlockInput\r\n    * Welcome
+    to The Terminal.\r\n    * In a moment, I will introduce you to a garden.\r\n   
+    * Your objective is to maintain this garden. Your performance will be evaluated.\r\n   
+    Wait 1\r\n    UnlockTerrain 24 0\r\n    Wait 1\r\n    * This is your garden.
+    Please select a data visulization to view relevant information of the garden.\r\n   
+    UnblockInput\r\n    UnlockDataVis 0\r\n\r\nScene Cutscene FirstDataVisualization\r\n   
+    Wait 0.5\r\n    * Currently, your garden is full of soil. Why don't you try planting
+    a seed?\r\n    UnlockAbility 0\r\n\r\nScene Cutscene FirstAbility\r\n    Wait
+    0.5\r\n    * Now run the simulation.\r\n    SetCycles 50\r\n    UnlockCycles
+    0\r\n\r\nScene Cutscene NewTerritory\r\n    BlockInput\r\n    Wait 0.5\r\n   
+    UnlockTerrain 128 1\r\n    * New Terrain Unlocked\r\n    Wait 0.5\r\n    UnlockForestLevels\r\n   
+    Wait 0.25\r\n    UnlockDatabase\r\n    Wait 0.25\r\n    UnlockDataVis 1\r\n   
+    Wait 0.25\r\n    UnlockAbility 1\r\n    UnblockInput\r\n"
+--- !u!114 &8961707070493726373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8961707070493726362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1572449b64d16374285a79f3505e18f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

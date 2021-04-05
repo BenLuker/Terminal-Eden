@@ -16,7 +16,7 @@ public class TooltipHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public TooltipDirection direction;
     public TooltipAlignment alignment;
 
-    public float offset = 10;
+    public Vector2 offset;
 
     private void Start()
     {

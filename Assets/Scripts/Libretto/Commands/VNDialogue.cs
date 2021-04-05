@@ -10,6 +10,7 @@ public class VNDialogue : MonoBehaviour
     public GameObject panel;
     public TextMeshProUGUI nameText;
     public RawImage coloredBar;
+    public GameObject continuePanel;
 
     public TextAnimator textAnimator; // TextAnimator API: https://www.textanimator.febucci.com/api/Febucci.UI.TextAnimator.html
     public TextAnimatorPlayer textAnimatorPlayer; // TextAnimatorPlayer API: https://www.textanimator.febucci.com/api/Febucci.UI.TextAnimatorPlayer.html
@@ -25,6 +26,7 @@ public class VNDialogue : MonoBehaviour
         nameText.color = Color.white;
         coloredBar.color = Color.white;
         panel.SetActive(true);
+        continuePanel.SetActive(true);
         textAnimatorPlayer.ShowText(dialogue);
     }
 
@@ -34,6 +36,7 @@ public class VNDialogue : MonoBehaviour
         nameText.color = Color.red;
         coloredBar.color = Color.red;
         panel.SetActive(true);
+        continuePanel.SetActive(true);
         textAnimatorPlayer.ShowText(dialogue);
     }
 
@@ -47,6 +50,7 @@ public class VNDialogue : MonoBehaviour
         {
             // Hide the dialogue panel
             panel.SetActive(false);
+            continuePanel.SetActive(false);
 
             // Tell the Libretto to play the next command
             continueDialogue.Invoke();

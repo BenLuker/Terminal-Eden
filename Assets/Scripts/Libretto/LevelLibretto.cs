@@ -38,7 +38,7 @@ namespace Libretto
         public List<Keyword> keywords;
     }
 
-    public class LevelLibretto : MonoBehaviour
+    public class LevelLibretto : SingletonBehaviour<LevelLibretto>
     {
         public List<CommandsList> scenes = new List<CommandsList>();
         public List<CommandEvent> events = new List<CommandEvent>();

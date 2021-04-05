@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class TopDownCameraController : SingletonBehaviour<TopDownCameraController>
 {
@@ -14,6 +15,8 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
 
     public float cameraFOV = 10f;
     public float cameraSmoothingSpeed = 10f;
+
+    public bool lockToTerrain = true;
 
     [Header("Keyboard Input")]
     public float keyboardMovementSpeedSlow = 0.04f;
@@ -132,6 +135,18 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
             // Add external forces
             newRotX *= exRotX;
 
+            // Clamp to terrain if locked to terrain
+            if (lockToTerrain)
+            {
+                RaycastHit hit;
+                Ray ray = new Ray(new Vector3(newPos.x, 100, newPos.y), -Vector3.up);
+                LayerMask mask = LayerMask.GetMask("Terrain");
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+                {
+                    newPos.y = hit.point.y;
+                }
+            }
+
             // Lerp transformations
             transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * cameraSmoothingSpeed);
             transform.rotation = Quaternion.Lerp(transform.rotation, newRotX, Time.deltaTime * cameraSmoothingSpeed);
@@ -213,6 +228,17 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
     public void ResetCameraSmoothingSpeed()
     {
         cameraSmoothingSpeed = 10f;
+    }
+
+    public void SetMaxPos(float p)
+    {
+        maxPos = p;
+    }
+
+    public void SetCameraDistanceLimits(float min, float max)
+    {
+        cameraDistanceMin = min;
+        cameraDistanceMax = max;
     }
 
     #endregion
@@ -389,12 +415,14 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
         // onMouseClick
         if (Input.GetMouseButtonUp(0))
         {
-            if (Vector3.Distance(dragStartPosition, dragCurrentPosition) < 0.01 && timeSinceMouseDown < 0.5)
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                onMouseClick.Invoke();
+                if (Vector3.Distance(dragStartPosition, dragCurrentPosition) < 0.01 && timeSinceMouseDown < 0.5)
+                {
+                    onMouseClick.Invoke();
+                }
             }
         }
-
     }
 
     void HandleKeyboardInput()

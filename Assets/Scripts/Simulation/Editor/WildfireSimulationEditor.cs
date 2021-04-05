@@ -9,6 +9,8 @@ public class WildfireSimulationEditor : Editor
     WildfireSimulation _sim;
 
     SerializedProperty onSimulationTextureCreated;
+    SerializedProperty onStep;
+    SerializedProperty onAbilityCasted;
     SerializedProperty onCellsSelected;
     SerializedProperty onVisibleCellsChanged;
 
@@ -17,6 +19,8 @@ public class WildfireSimulationEditor : Editor
         _sim = (WildfireSimulation)target;
 
         onSimulationTextureCreated = serializedObject.FindProperty("onSimulationTextureCreated");
+        onStep = serializedObject.FindProperty("onStep");
+        onAbilityCasted = serializedObject.FindProperty("onAbilityCasted");
         onCellsSelected = serializedObject.FindProperty("onCellsSelected");
         onVisibleCellsChanged = serializedObject.FindProperty("onVisibleCellsChanged");
     }
@@ -35,7 +39,6 @@ public class WildfireSimulationEditor : Editor
         GUIStyle headerStyle = new GUIStyle();
         headerStyle.fontStyle = FontStyle.Bold;
 
-        // _sim.displayRenderer = (MeshRenderer)EditorGUILayout.ObjectField("Display Renderer", _sim.displayRenderer, typeof(MeshRenderer), true);
         EditorGUILayout.Space(10);
 
         #region Realtime Controls
@@ -71,8 +74,13 @@ public class WildfireSimulationEditor : Editor
 
         GUILayout.Label("Simulation Settings", headerStyle);
 
-        // Simulation Shader and Render Texture
+        // Simulation Material
         _sim.simMat = (Material)EditorGUILayout.ObjectField("Simulation Material", _sim.simMat, typeof(Material), true);
+
+        _sim.calculateOverallLevels = (Material)EditorGUILayout.ObjectField("Calculate Levels Material", _sim.calculateOverallLevels, typeof(Material), true);
+
+        EditorGUILayout.ObjectField("Read State", _sim.readState, typeof(Texture2D), true);
+
 
         int visibleCellsWidth = _sim.visibleCellsWidth;
         visibleCellsWidth = (int)Mathf.Round(EditorGUILayout.IntSlider("Revealed Cells Width", _sim.visibleCellsWidth, 0, _sim.textureResolution) / 2) * 2;
@@ -118,7 +126,6 @@ public class WildfireSimulationEditor : Editor
         GUILayout.Label("Abilities", headerStyle);
 
         // Ability Mats
-        // _sim.growMat = (Material)EditorGUILayout.ObjectField("Grow Ability Mat", _sim.growMat, typeof(Material), true);
         _sim.heldAbility = (Ability)EditorGUILayout.ObjectField("Held Ability", _sim.heldAbility, typeof(Ability), true);
 
         EditorGUILayout.Space(10);
@@ -130,6 +137,8 @@ public class WildfireSimulationEditor : Editor
         GUILayout.Label("Events", headerStyle);
 
         EditorGUILayout.PropertyField(onSimulationTextureCreated);
+        EditorGUILayout.PropertyField(onStep);
+        EditorGUILayout.PropertyField(onAbilityCasted);
         EditorGUILayout.PropertyField(onCellsSelected);
         EditorGUILayout.PropertyField(onVisibleCellsChanged);
 
