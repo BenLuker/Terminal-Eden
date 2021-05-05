@@ -8,27 +8,21 @@ using UnityEngine.Events;
 public class CyclesManager : SingletonBehaviour<CyclesManager>
 {
     public int cycle;
-    public TextMeshProUGUI number;
-    public bool hideOnStart;
+    public GameObject cycles;
+    public TextMeshProUGUI cyclesNumber;
+    public bool unlockAtStart;
 
     public UnityEvent onCyclesCompleted = new UnityEvent();
 
     private void Start()
     {
-        if (hideOnStart)
-        {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
+        if (!unlockAtStart) HideCycles(true);
         UpdateDisplay();
     }
 
-    public void UnlockCycles()
+    public void HideCycles(bool b)
     {
-        transform.GetChild(0).gameObject.SetActive(true);
-        transform.GetChild(1).gameObject.SetActive(true);
+        cycles.SetActive(!b);
     }
 
     public void Cycle()
@@ -49,7 +43,7 @@ public class CyclesManager : SingletonBehaviour<CyclesManager>
 
     void UpdateDisplay()
     {
-        number.text = cycle.ToString();
+        cyclesNumber.text = cycle.ToString();
     }
 
 }

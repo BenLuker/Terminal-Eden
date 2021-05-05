@@ -7,7 +7,7 @@ public class CyclesLibrettoCommands : LibrettoCommands<CyclesManager>
 {
     public void UnlockCycles(string arguments)
     {
-        subject.UnlockCycles();
+        subject.HideCycles(false);
         onCommandComplete.Invoke();
     }
 

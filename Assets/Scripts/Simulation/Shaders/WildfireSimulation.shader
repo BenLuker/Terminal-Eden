@@ -1,4 +1,4 @@
-﻿Shader "Terminal Eden/Simulation"
+﻿Shader "Terminal Eden/Simulation/Automata"
 {
     Properties
     {
@@ -120,18 +120,45 @@
                 neighborData += tex2D(_MainTex, uv + float2(0, -step)); 
                 neighborData += tex2D(_MainTex, uv + float2(step, -step));
 
-                // Calculate Extended Neighbors (From Wind)
-                for (int i = 1; i <= _Wind.z; i++) {
-                    neighborData += tex2D(_MainTex, uv + float2(-_Wind.x * (i + 1) * step, -_Wind.y * (i + 1) * step));
-                }
+                neighborData += _Wind.z >= 1 ? tex2D(_MainTex, uv + float2(-_Wind.x * step, -_Wind.y * step)) : fixed4(0,0,0,1);
+                neighborData += _Wind.z >= 2 ? tex2D(_MainTex, uv + float2(-_Wind.x * step * 2, -_Wind.y * step * 2)) : fixed4(0,0,0,1);
+                neighborData += _Wind.z >= 3 ? tex2D(_MainTex, uv + float2(-_Wind.x * step * 3, -_Wind.y * step * 3)) : fixed4(0,0,0,1);
+                neighborData += _Wind.z >= 4 ? tex2D(_MainTex, uv + float2(-_Wind.x * step * 4, -_Wind.y * step * 4)) : fixed4(0,0,0,1);
+
+                // // Calculate Extended Neighbors (From Wind)
+                // for (int i = 1; i <= _Wind.z; i++) {
+                //     neighborData += tex2D(_MainTex, uv + float2(-_Wind.x * (i + 1) * step, -_Wind.y * (i + 1) * step));
+                // }
 
                 // Grab Current Pixel
                 fixed4 c = tex2D(_MainTex, uv);
 
+                // TODO: Make simulation AWESOME. Right now, just make sure it can't grow if topography is > than like 0.25
+                // float fire = c.r;
+                // float vegetation = c.g;
+                // float topography = c.b;
+
+                // // If there is any fire, it will be burned no matter what
+                // if (fire > 0.1) {
+                //     c = fixed4(0,0,0,1);
+                // } else {
+
+                //     // if there is SOME vegetation, it can potentially catch fire
+
+                // }
+
+                // else if (vegetation >= 0.01) {
+                //     c = fixed4(0, c.g + 0.05, 0, 1);
+                // }
+
+                if (c.b > 0.25) {
+                    c = fixed4(0, 0, c.b, 1);
+                } else {
+
                 // Determine state
                 // If Burned
                 if (colorsMatch(c, _Burned)) {
-                    if (randomTime(uv) / (neighborData.g + neighborData.b) < _GrowSpread) {
+                    if (randomTime(uv) / (neighborData.g) < _GrowSpread) {
                         c = _Grown;
                     } else if (randomHighPrecision(uv, 5) < _GrowSpawn) {
                         c = _Grown;
@@ -145,9 +172,9 @@
                     if (randomTime(uv) / neighborData.r < _FireSpread) {
                         c = _Fire;
                     } else if (randomTime(uv) / neighborData.b < _OvergrowSpread) {
-                        c = _Overgrown;
+                        // c = _Overgrown;
                     } else if (randomHighPrecision(uv, 5) < _OvergrowSpawn) {
-                        c = _Overgrown;
+                        // c = _Overgrown;
                     } else if (randomHighPrecision(uv, 5) < _FireSpawn) {
                         c = _Fire;
                     } else {
@@ -155,20 +182,23 @@
                     }
                 }
 
-                // If Overgrown
-                else if (colorsMatch(c, _Overgrown)) {
-                    if (randomTime(uv) / neighborData.r < _FireWithFuelSpread) {
-                        c = _Fire;
-                    } else if (randomHighPrecision(uv, 5) < _FireSpawn) {
-                        c = _Fire;
-                    } else {
-                        c = _Overgrown;
-                    }
-                }
+
+                // // If Overgrown
+                // else if (colorsMatch(c, _Overgrown)) {
+                //     if (randomTime(uv) / neighborData.r < _FireWithFuelSpread) {
+                //         c = _Fire;
+                //     } else if (randomHighPrecision(uv, 5) < _FireSpawn) {
+                //         c = _Fire;
+                //     } else {
+                //         c = _Overgrown;
+                //     }
+                // }
 
                 // If Fire
                 else if (colorsMatch(c, _Fire)) {
                     c = _Burned;
+                }
+                
                 }
 
                 return c;

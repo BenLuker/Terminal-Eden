@@ -9,11 +9,13 @@ public class TopDownCameraControllerEditor : Editor
     TopDownCameraController _cam;
     SerializedProperty onMouseClick;
     SerializedProperty onCameraMove;
+    SerializedProperty onCameraZoom;
 
     void OnEnable()
     {
         _cam = (TopDownCameraController)target;
         onCameraMove = serializedObject.FindProperty("onCameraMove");
+        onCameraZoom = serializedObject.FindProperty("onCameraZoom");
         onMouseClick = serializedObject.FindProperty("onMouseClick");
     }
 
@@ -38,6 +40,7 @@ public class TopDownCameraControllerEditor : Editor
         // Input/Output Blocking
         _cam.inputBlocked = EditorGUILayout.Toggle("Input Block", _cam.inputBlocked);
         _cam.outputBlocked = EditorGUILayout.Toggle("Output Block", _cam.outputBlocked);
+        _cam.lockToTerrain = EditorGUILayout.Toggle("Lock to Terrain", _cam.lockToTerrain);
 
         // FOV slider
         _cam.cameraFOV = EditorGUILayout.Slider("Field of View", _cam.cameraFOV, 0f, 100f);
@@ -100,6 +103,7 @@ public class TopDownCameraControllerEditor : Editor
         EditorGUILayout.Space();
 
         EditorGUILayout.PropertyField(onCameraMove);
+        EditorGUILayout.PropertyField(onCameraZoom);
         EditorGUILayout.PropertyField(onMouseClick);
 
         serializedObject.ApplyModifiedProperties();

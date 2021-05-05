@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa2bcf5055f9ca6409b755e4b2c12b9b, type: 3}
   m_Name: Lightning Strike
   m_EditorClassIdentifier: 
+  title: Lightning Strikes!
+  copy: A surge of lighting sparks a fire.
   material: {fileID: 2100000, guid: 87723393f3070134d8b94764fc2a089f, type: 2}
   affectedCells:
   - {x: 0, y: 0}
@@ -19,3 +21,9 @@ MonoBehaviour:
   - {x: -1, y: 0}
   - {x: 0, y: 1}
   - {x: 0, y: -1}
+  - {x: 1, y: 1}
+  - {x: -1, y: 1}
+  - {x: 1, y: -1}
+  - {x: -1, y: -1}
+  setupState: 1
+  affectState: 3

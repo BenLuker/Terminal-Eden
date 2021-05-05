@@ -9,9 +9,9 @@ public class WildfireSimulationEditor : Editor
     WildfireSimulation _sim;
 
     SerializedProperty onSimulationTextureCreated;
+    SerializedProperty onSelectionTextureCreated;
     SerializedProperty onStep;
     SerializedProperty onAbilityCasted;
-    SerializedProperty onCellsSelected;
     SerializedProperty onVisibleCellsChanged;
 
     void OnEnable()
@@ -19,9 +19,9 @@ public class WildfireSimulationEditor : Editor
         _sim = (WildfireSimulation)target;
 
         onSimulationTextureCreated = serializedObject.FindProperty("onSimulationTextureCreated");
+        onSelectionTextureCreated = serializedObject.FindProperty("onSelectionTextureCreated");
         onStep = serializedObject.FindProperty("onStep");
         onAbilityCasted = serializedObject.FindProperty("onAbilityCasted");
-        onCellsSelected = serializedObject.FindProperty("onCellsSelected");
         onVisibleCellsChanged = serializedObject.FindProperty("onVisibleCellsChanged");
     }
 
@@ -32,6 +32,9 @@ public class WildfireSimulationEditor : Editor
         // Monobehavior Header
         GUI.enabled = false;
         EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((WildfireSimulation)target), typeof(WildfireSimulation), false);
+        EditorGUILayout.ObjectField("Simulation", _sim.displayTexture, typeof(RenderTexture), true);
+        EditorGUILayout.ObjectField("Selection", _sim.selectionTexture, typeof(RenderTexture), true);
+        EditorGUILayout.ObjectField("Read State", _sim.readState, typeof(Texture2D), true);
         EditorGUILayout.Space();
         GUI.enabled = true;
 
@@ -66,6 +69,12 @@ public class WildfireSimulationEditor : Editor
         EditorGUILayout.EndHorizontal();
 
         GUI.enabled = true;
+
+        int visibleCellsWidth = _sim.visibleCellsWidth;
+        visibleCellsWidth = (int)Mathf.Round(EditorGUILayout.IntSlider("Revealed Cells Width", _sim.visibleCellsWidth, 0, _sim.textureResolution) / 2) * 2;
+        if (visibleCellsWidth != _sim.visibleCellsWidth)
+            _sim.ChangeCellWidth(visibleCellsWidth);
+
         EditorGUILayout.Space(10);
 
         #endregion
@@ -76,16 +85,9 @@ public class WildfireSimulationEditor : Editor
 
         // Simulation Material
         _sim.simMat = (Material)EditorGUILayout.ObjectField("Simulation Material", _sim.simMat, typeof(Material), true);
+        _sim.selectionMat = (Material)EditorGUILayout.ObjectField("Selection Material", _sim.selectionMat, typeof(Material), true);
 
-        _sim.calculateOverallLevels = (Material)EditorGUILayout.ObjectField("Calculate Levels Material", _sim.calculateOverallLevels, typeof(Material), true);
-
-        EditorGUILayout.ObjectField("Read State", _sim.readState, typeof(Texture2D), true);
-
-
-        int visibleCellsWidth = _sim.visibleCellsWidth;
-        visibleCellsWidth = (int)Mathf.Round(EditorGUILayout.IntSlider("Revealed Cells Width", _sim.visibleCellsWidth, 0, _sim.textureResolution) / 2) * 2;
-        if (visibleCellsWidth != _sim.visibleCellsWidth)
-            _sim.ChangeCellWidth(visibleCellsWidth);
+        // _sim.calculateOverallLevels = (Material)EditorGUILayout.ObjectField("Calculate Levels Material", _sim.calculateOverallLevels, typeof(Material), true);
 
         EditorGUILayout.Space(10);
 
@@ -103,18 +105,18 @@ public class WildfireSimulationEditor : Editor
         _sim.simStates = EditorGUILayout.IntSlider("Undo History Limit", _sim.simStates - 1, 1, 50) + 1;
 
         // Generate or Read from File
-        EditorGUILayout.Space();
-        _sim.generateStart = EditorGUILayout.Toggle("Generate Start", _sim.generateStart);
-        if (_sim.generateStart)
-        {
-            // Generation Settings
-            _sim.initMat = (Material)EditorGUILayout.ObjectField("Generation Material", _sim.initMat, typeof(Material), true);
-        }
-        else
-        {
-            // Initial State Texture
-            _sim.initialState = (Texture2D)EditorGUILayout.ObjectField("Initial State", _sim.initialState, typeof(Texture2D), false, GUILayout.Height(EditorGUIUtility.singleLineHeight));
-        }
+        // EditorGUILayout.Space();
+        // _sim.generateStart = EditorGUILayout.Toggle("Generate Start", _sim.generateStart);
+        // if (_sim.generateStart)
+        // {
+        //     // Generation Settings
+        //     // _sim.initMat = (Material)EditorGUILayout.ObjectField("Generation Material", _sim.initMat, typeof(Material), true);
+        // }
+        // else
+        // {
+        //     // Initial State Texture
+        //     _sim.initialState = (Texture2D)EditorGUILayout.ObjectField("Initial State", _sim.initialState, typeof(Texture2D), false, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+        // }
 
         GUI.enabled = true;
         EditorGUILayout.Space(10);
@@ -137,9 +139,9 @@ public class WildfireSimulationEditor : Editor
         GUILayout.Label("Events", headerStyle);
 
         EditorGUILayout.PropertyField(onSimulationTextureCreated);
+        EditorGUILayout.PropertyField(onSelectionTextureCreated);
         EditorGUILayout.PropertyField(onStep);
         EditorGUILayout.PropertyField(onAbilityCasted);
-        EditorGUILayout.PropertyField(onCellsSelected);
         EditorGUILayout.PropertyField(onVisibleCellsChanged);
 
         #endregion

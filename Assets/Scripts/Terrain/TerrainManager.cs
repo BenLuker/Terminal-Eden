@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,36 +7,31 @@ using UnityEngine.Events;
 namespace TerminalEden.Terrain
 {
     [RequireComponent(typeof(MeshRenderer))]
-    [RequireComponent(typeof(MeshGenerator))]
+    // [RequireComponent(typeof(MeshGenerator))]
     public class TerrainManager : SingletonBehaviour<TerrainManager>
     {
-        MeshRenderer rend;
-        MeshGenerator generator;
-
-        // Texture variables
-        RenderTexture displayTexture;
-        int textureSize;
+        public MeshRenderer rend;
+        public MeshManager meshManager;
 
         // Mesh variables
         float meshSize;
         float targetVisibleTerrainPercent;
         float visibleTerrainPercent;
-        List<Vector4> selectedCells;
-        float selectedCellsSize;
+        float visualizationTransition;
 
         [System.Serializable] public class Vector2Event : UnityEvent<Vector2> { }
+        [System.Serializable] public class Texture2DEvent : UnityEvent<Texture2D> { }
+
         public Vector2Event onMouseOverTerrain = new Vector2Event();
         public UnityEvent onVisualizationChange = new UnityEvent();
+        public Texture2DEvent onMeshGenerated = new Texture2DEvent();
 
         #region Events
 
         void Start()
         {
-            rend = GetComponent<MeshRenderer>();
-            generator = GetComponent<MeshGenerator>();
             CreateMesh();
-
-            selectedCells = new List<Vector4>();
+            WriteMesh();
         }
 
         void Update()
@@ -48,14 +43,20 @@ namespace TerminalEden.Terrain
         private void FixedUpdate()
         {
             visibleTerrainPercent = Vector2.Lerp(new Vector2(visibleTerrainPercent, 0), new Vector2(targetVisibleTerrainPercent, 0), Time.deltaTime * 10).x;
+            visualizationTransition = Vector2.Lerp(new Vector2(visualizationTransition, 0), new Vector2(targetVisibleTerrainPercent / 2, 0), Time.deltaTime * 4).x;
         }
 
         #endregion
 
         void CreateMesh()
         {
-            generator.CreateMesh();
-            meshSize = generator.size;
+            meshManager.CreateMesh();
+            meshSize = meshManager.size;
+        }
+
+        void WriteMesh()
+        {
+            onMeshGenerated.Invoke(meshManager.WriteMesh());
         }
 
         void DetectMouseOverPosition()
@@ -71,12 +72,14 @@ namespace TerminalEden.Terrain
 
         public void UpdateMaterial()
         {
-            rend.material.SetFloat("percentageVisible", visibleTerrainPercent);
-            if (selectedCells.Count > 0)
-            {
-                rend.material.SetVectorArray("_SelectedCells", selectedCells);
-                rend.material.SetFloat("_SelectedCellsSize", selectedCellsSize);
-            }
+            rend.material.SetFloat("_percentageVisible", visibleTerrainPercent);
+            rend.material.SetFloat("_wipe", visualizationTransition);
+        }
+
+        public void UpdateWindVisualization(float zoom)
+        {
+            rend.material.SetFloat("_WireframeScale", Mathf.Clamp(Mathf.Lerp(2, 15, Mathf.InverseLerp(10, 100, zoom)), 2, 15));
+            rend.material.SetFloat("_WindHeight", Mathf.Clamp(Mathf.Lerp(0.25f, 1, Mathf.InverseLerp(10, 100, zoom)), 0.25f, 1));
         }
 
         #region Public Methods
@@ -86,40 +89,57 @@ namespace TerminalEden.Terrain
             return meshSize;
         }
 
-        public void SetMaterial(Material mat)
+        public void SetMaterialIndex(float index)
         {
-            rend.material = mat;
-            rend.material.mainTexture = displayTexture;
-            rend.material.SetInt("textureSize", textureSize);
+            // Grab current index and set it as the old index
+            float prev = rend.material.GetFloat("_index");
+            rend.material.SetFloat("_prevIndex", prev);
+
+            // Set transition to 0
+            visualizationTransition = 0;
+
+            // Set new index
+            rend.material.SetFloat("_index", index);
         }
 
-        public void SetDisplayTexture(RenderTexture rt)
+        public void SetSimulationTexture(RenderTexture rt)
         {
-            displayTexture = rt;
-            textureSize = rt.width;
+            rend.material.SetTexture("_sim", rt);
+            rend.material.SetFloat("_textureSize", rt.width);
         }
 
-        public void SetSelectedCells(List<Vector2> cells)
+        public void SetSelectionTexture(RenderTexture rt)
         {
-            selectedCells.Clear();
-            for (int i = 0; i < 100; i++)
-            {
-                if (i < cells.Count)
-                {
-                    selectedCells.Add(cells[i]);
-                }
-                else
-                {
-                    selectedCells.Add(Vector4.zero);
-                }
-            }
-            selectedCellsSize = cells.Count;
+            rend.material.SetTexture("_selection", rt);
         }
+
+        // public void SetSelectedCells(List<Vector2> cells)
+        // {
+        //     selectedCells.Clear();
+        //     for (int i = 0; i < 100; i++)
+        //     {
+        //         if (i < cells.Count)
+        //         {
+        //             selectedCells.Add(cells[i]);
+        //         }
+        //         else
+        //         {
+        //             selectedCells.Add(Vector4.zero);
+        //         }
+        //     }
+        //     selectedCellsSize = cells.Count;
+        // }
 
         public void SetVisibleTerrainWidthPercentage(float percentage)
         {
             targetVisibleTerrainPercent = percentage;
+            // rend.material.SetFloat("_percentageVisible", percentage);
         }
+
+        // public void SetRevealSpeed(float speed)
+        // {
+        //     revealSpeed = speed;
+        // }
 
         #endregion
 

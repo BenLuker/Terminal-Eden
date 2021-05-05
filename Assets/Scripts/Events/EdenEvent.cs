@@ -7,8 +7,13 @@ namespace TerminalEden.Simulation
     [CreateAssetMenu(fileName = "New Event", menuName = "Terminal Eden/Event", order = 1)]
     public class EdenEvent : ScriptableObject
     {
+        public string title;
+        public string copy;
         public Material material;
         public List<Vector2> affectedCells = new List<Vector2>();
+        public int setupState0;
+        public int setupState;
+        public int affectState;
 
         public void Prepare(Vector2 center, RenderTexture sim)
         {

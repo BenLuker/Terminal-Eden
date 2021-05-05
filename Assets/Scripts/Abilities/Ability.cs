@@ -13,12 +13,29 @@ namespace TerminalEden.Simulation
         public List<Vector2> selectedCells = new List<Vector2>();
         public List<Vector2> affectedCells = new List<Vector2>();
 
-        public List<Vector2> GetSelection(Vector2 center)
+        // public List<Vector2> GetSelection(Vector2 center)
+        // {
+        //     List<Vector2> selection = new List<Vector2>();
+        //     foreach (Vector2 v in selectedCells)
+        //     {
+        //         selection.Add(v + center);
+        //     }
+        //     return selection;
+        // }
+
+        public List<Vector4> GetSelection(Vector2 center)
         {
-            List<Vector2> selection = new List<Vector2>();
-            foreach (Vector2 v in selectedCells)
+            List<Vector4> selection = new List<Vector4>();
+            for (int i = 0; i < 100; i++)
             {
-                selection.Add(v + center);
+                if (i < selectedCells.Count)
+                {
+                    selection.Add(selectedCells[i] + center);
+                }
+                else
+                {
+                    selection.Add(Vector4.zero);
+                }
             }
             return selection;
         }

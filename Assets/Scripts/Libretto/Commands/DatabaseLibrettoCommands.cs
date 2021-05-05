@@ -10,4 +10,14 @@ public class DatabaseLibrettoCommands : LibrettoCommands<DatabaseManager>
         subject.UnlockDatabase();
         onCommandComplete.Invoke();
     }
+
+    public void UnlockTab(string arguments)
+    {
+        string[] a = arguments.Split(' ');
+
+        int tab = int.Parse(a[0]);
+
+        subject.UnlockTab(tab);
+        onCommandComplete.Invoke();
+    }
 }

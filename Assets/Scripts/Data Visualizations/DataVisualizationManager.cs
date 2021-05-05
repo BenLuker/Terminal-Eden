@@ -5,11 +5,11 @@ using UnityEngine.Events;
 
 public class DataVisualizationManager : SingletonBehaviour<DataVisualizationManager>
 {
-    public bool hideOnStart;
+    public bool unlockAtStart;
 
     private void Start()
     {
-        if (hideOnStart)
+        if (!unlockAtStart)
         {
             for (int i = 0; i < transform.childCount; i++)
             {

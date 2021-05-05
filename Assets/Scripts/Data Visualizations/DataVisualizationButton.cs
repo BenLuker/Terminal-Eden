@@ -8,7 +8,7 @@ using TerminalEden.Terrain;
 
 public class DataVisualizationButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
 {
-    public Material dataVisualizationMat;
+    // public Material dataVisualizationMat;
 
     GameObject parent;
     float pos;
@@ -41,8 +41,8 @@ public class DataVisualizationButton : MonoBehaviour, IPointerEnterHandler, IPoi
         // LeanTween.alpha(GetComponent<RectTransform>(), 1f, 1f).setEase(LeanTweenType.easeOutCubic);
     }
 
-    [System.Serializable] public class MaterialEvent : UnityEvent<Material> { }
-    public MaterialEvent onVisualizationSelected = new MaterialEvent();
+    // [System.Serializable] public class MaterialEvent : UnityEvent<Material> { }
+    // public MaterialEvent onVisualizationSelected = new MaterialEvent();
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
@@ -51,7 +51,7 @@ public class DataVisualizationButton : MonoBehaviour, IPointerEnterHandler, IPoi
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        onVisualizationSelected.Invoke(dataVisualizationMat);
+        // onVisualizationSelected.Invoke(dataVisualizationMat);
     }
 
     public void OnPointerExit(PointerEventData pointerEventData)

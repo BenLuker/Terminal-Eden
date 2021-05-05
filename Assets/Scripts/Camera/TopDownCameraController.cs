@@ -61,8 +61,10 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
     float timeSinceMouseDown;
 
     // Events
+    [System.Serializable] public class FloatEvent : UnityEvent<float> { }
     public UnityEvent onCameraMove = new UnityEvent();
     public UnityEvent onMouseClick = new UnityEvent();
+    public FloatEvent onCameraZoom = new FloatEvent();
 
     #region Events
 
@@ -159,6 +161,11 @@ public class TopDownCameraController : SingletonBehaviour<TopDownCameraControlle
             if (isMoving())
             {
                 onCameraMove.Invoke();
+            }
+
+            if (isZooming())
+            {
+                onCameraZoom.Invoke(-cameraTransform.localPosition.z);
             }
         }
     }

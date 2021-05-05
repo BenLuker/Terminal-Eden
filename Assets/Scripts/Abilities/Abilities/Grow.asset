@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Grow
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 0f701127a9685664b97f7a1d5c261b17, type: 2}
+  coolDown: 100
   selectedCells:
   - {x: 0, y: 0}
   affectedCells:
   - {x: 0, y: 0}
-  coolDown: 0

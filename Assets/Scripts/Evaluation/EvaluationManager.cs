@@ -18,6 +18,7 @@ public class EvaluationManager : SingletonBehaviour<EvaluationManager>
     public TextMeshProUGUI flavorText;
 
     float forestLevels;
+    bool inputBlocked;
 
     Texture2D simulationTexture;
 
@@ -31,6 +32,10 @@ public class EvaluationManager : SingletonBehaviour<EvaluationManager>
     {
         // Unhide UI
         evaluationPanel.SetActive(true);
+
+        // Block Camera inputs
+        inputBlocked = TopDownCameraController.Instance.inputBlocked;
+        TopDownCameraController.Instance.SetInputBlock(true);
 
         // Read simulation
         simulationTexture = WildfireSimulation.Instance.ReadSimulation();
@@ -54,17 +59,21 @@ public class EvaluationManager : SingletonBehaviour<EvaluationManager>
         currentLevels.text = forestLevels.ToString("F2") + "%";
         requiredLevels.text = threshold.ToString("F2") + "%";
         flavorText.text = Succeed() ? "Good job. You may now access more terrain." : "Grow your forest to the required threshold to continue.";
+        flavorText.text += " Click to continue...";
     }
 
     public void OnContinue()
     {
+        // Reset the cycle number
+        CyclesManager.Instance.SetCycle(cycles[GameManager.Instance.act]);
+
+        // Unblock Camera Input
+        TopDownCameraController.Instance.SetInputBlock(inputBlocked);
+
         if (Succeed())
         {
             GameManager.Instance.NextPhase();
         }
-
-        // Reset the cycle number
-        CyclesManager.Instance.SetCycle(cycles[GameManager.Instance.act]);
     }
 
     public bool Succeed()

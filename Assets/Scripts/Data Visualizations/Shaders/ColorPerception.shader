@@ -1,4 +1,6 @@
-﻿Shader "Terminal Eden/Data Visualization/Color"
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Terminal Eden/Data Visualization/Color"
 {
     Properties
     {
@@ -87,6 +89,7 @@
                 float2 uv = i.uv;
                 fixed4 c = tex2D(_MainTex, uv);
 
+                // Selected Cells
                 float2 coords = float2(ceil(uv.x * textureSize), ceil(uv.y * textureSize));                
                 fixed4 h = fixed4(_HighlightColor.r, _HighlightColor.g, _HighlightColor.b , 1);
                 

@@ -4,26 +4,32 @@ using UnityEngine;
 
 public class DatabaseManager : MonoBehaviour
 {
-    public bool hideOnStart;
+    public bool unlockAtStart;
+    public GameObject DBButton;
+    public GameObject DBPanel;
+    public GameObject DBBackgroundPanel;
 
     private void Start()
     {
-        if (hideOnStart)
+        if (!unlockAtStart)
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
+            DBButton.SetActive(false);
+            DBBackgroundPanel.SetActive(false);
         }
     }
 
     public void UnlockDatabase()
     {
-        transform.GetChild(0).gameObject.SetActive(true);
+        DBButton.SetActive(true);
     }
 
     public void Open(bool open)
     {
-        transform.GetChild(1).gameObject.SetActive(open);
+        DBBackgroundPanel.SetActive(open);
+    }
+
+    public void UnlockTab(int tab)
+    {
+        DBPanel.transform.GetChild(tab * 2 + 1).gameObject.SetActive(true);
     }
 }

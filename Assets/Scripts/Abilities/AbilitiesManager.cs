@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class AbilitiesManager : SingletonBehaviour<AbilitiesManager>
 {
-    public bool hideOnStart;
+    public bool unlockAtStart;
 
     private void Start()
     {
-        if (hideOnStart)
+        if (!unlockAtStart)
         {
             for (int i = 0; i < transform.childCount; i++)
             {

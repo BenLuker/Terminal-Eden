@@ -1,25 +1,27 @@
 Scene Cutscene Opening
     Wait 0.5
     BlockInput
-    * Welcome to The Terminal.
-    * In a moment, I will introduce you to a garden.
-    * Your objective is to maintain this garden. Your performance will be evaluated.
+    * Welcome, engineer.
+    * In a moment, I will introduce you to a lifeless landscape.
+    * Your objective is produce and maintain a garden. Your performance will be evaluated.
     Wait 1
     UnlockTerrain 24 0
     Wait 1
-    * This is your garden. Please select a data visulization to view relevant information of the garden.
+    * This is your landscape. To view more relevant information for the production of your garden, please view an alternate visulization of the landscape.
     UnblockInput
     UnlockDataVis 0
 
 Scene Cutscene FirstDataVisualization
     Wait 0.5
-    * Currently, your garden is full of soil. Why don't you try planting a seed?
+    * Currently, your landscape is devoid of any vegetation. Why don't you try planting some with your "Plant" ability?
     UnlockAbility 0
 
 Scene Cutscene FirstAbility
     Wait 0.5
-    * Now run the simulation.
-    SetCycles 50
+    * Once using an ability, you cannot use it again until it has recharged.
+    * To see how this ability affected the landscape, hit "Play" on the simulation.
+    * After 100 simulation cycles, your progress will be evaluated. Reach the required vegetation threshold to progress.
+    SetCycles 100
     UnlockCycles 0
 
 Scene Cutscene NewTerritory
@@ -27,8 +29,8 @@ Scene Cutscene NewTerritory
     Wait 0.5
     UnlockTerrain 128 1
     * New Terrain Unlocked
-    Wait 0.5
-    UnlockForestLevels
+    * You will now be given access to the database, filled with knowledge on growing your garden.
+    * Additionally, you will recieve another visualization and ability. Proceed now.
     Wait 0.25
     UnlockDatabase
     Wait 0.25
@@ -36,3 +38,23 @@ Scene Cutscene NewTerritory
     Wait 0.25
     UnlockAbility 1
     UnblockInput
+
+Scene Cutscene UnlockEverything
+    BlockInput
+    Wait 0.5
+    UnlockTerrain 256 1
+    * New Terrain Unlocked
+    * Unlocking final ability
+    Wait 0.25
+    UnlockAbility 2
+    UnblockInput
+
+Scene Cutscene End
+    BlockInput
+    StopSimulation
+    StartTurntable -0.3
+    TweenMove 0 0 0 2 smooth nowait
+    TweenZoom 100 2 smooth nowait
+    TweenYRot 30 2 smooth
+    Wait 0.5
+    ShowResults
